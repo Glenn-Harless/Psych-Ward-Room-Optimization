@@ -118,3 +118,50 @@ If operational flexibility and practical day-to-day management are more critical
 
 Ultimately, the decision should also factor in other operational considerations such as staffing, patient preferences, and cost implications. Implementing a dynamic allocation system that can adjust room assignments based on daily patient inflow and needs could also be beneficial.
 
+## Usage
+
+### Prerequisites
+Ensure you have the necessary dependencies installed. You can install them using `requirements.txt`:
+
+```sh
+pip install -r requirements.txt
+```
+
+## Running the Scripts
+
+### Running the Optimization Script
+The `optimizer.py` script uses linear programming to find the optimal number of double and single rooms that minimize wasted beds.
+
+```sh
+python optimizer.py
+```
+
+### Running the Efficiency Tracker Script
+The `tracker.py` script evaluates all possible combinations of double and single rooms and tracks the efficiency of each combination.
+
+```sh
+python tracker.py
+```
+
+The `main.py` script runs both the optimization and efficiency tracker scripts together.
+
+```sh
+python main.py
+```
+
+
+### Running with Docker
+You can also run the project using Docker. Ensure Docker is installed and running on your system.
+
+#### Building the Docker Image
+
+Build the Docker image using the provided dockerfile:
+
+
+```sh
+docker-compose build   
+```
+
+```sh
+docker-compose up   
+```
