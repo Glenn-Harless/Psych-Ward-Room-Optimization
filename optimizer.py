@@ -1,5 +1,6 @@
 import pandas as pd
 import pulp
+import math
 
 class WardOptimizer:
     def __init__(self, data_path):
@@ -14,24 +15,28 @@ class WardOptimizer:
         S = pulp.LpVariable('S', lowBound=0, upBound=26, cat='Integer')  # number of single rooms
 
         # Add constraints
-        problem += 2 * D + S == 26, "TotalCapacity"  # Ensure exactly 26 beds are used
+        problem += 2 * D + S == 26, "TotalBeds"  # Ensure exactly 26 beds are used
 
         # Objective function to minimize wasted beds
         total_wasted_beds = 0
         for i, row in self.data.iterrows():
             single_rooms_needed = row['Total Single Room Patients']
             double_rooms_needed = row['Double Room Patients']
+            closed_rooms = row['Closed Rooms']
             
             # Variables to calculate room allocation
             single_in_double = pulp.LpVariable(f'single_in_double_{i}', lowBound=0, cat='Integer')
 
             # Constraints to ensure enough rooms
-            problem += S + single_in_double >= single_rooms_needed, f"SingleRoomNeed_{i}"
+            problem += S >= single_rooms_needed, f"SingleRoomNeed_{i}"
             problem += 2 * D >= double_rooms_needed, f"DoubleRoomNeed_{i}"
+            problem += S + single_in_double >= single_rooms_needed, f"SingleInDouble_{i}"
 
             # Calculate wasted beds
+            wasted_single_in_double = single_in_double
             unused_double_beds = 2 * D - (double_rooms_needed + single_in_double)
-            total_wasted_beds += single_in_double + unused_double_beds  # Only count single in double as wasted if exceeds single rooms needed
+            wasted_beds_day = wasted_single_in_double + unused_double_beds + closed_rooms
+            total_wasted_beds += wasted_beds_day
 
         problem += total_wasted_beds, "MinimizeWastedBeds"
 
@@ -39,8 +44,14 @@ class WardOptimizer:
         problem.solve()
 
         # Get the results
+        # round up to the nearest integer
         double_rooms = pulp.value(D)
         single_rooms = pulp.value(S)
+
+        # if double rooms ends in .5 subtract 0.5 and add 1 single room
+        if double_rooms % 1 == 0.5:
+            double_rooms = math.floor(double_rooms)
+            single_rooms += + 1
 
         return double_rooms, single_rooms
 
