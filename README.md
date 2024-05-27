@@ -67,7 +67,7 @@ The linear programming optimization (optimizer.py) suggests having 6 double room
 #### Exhaustive Combination Results
 The exhaustive combination evaluation implies the best route is 0 Double rooms, and 26 single rooms, with the wasted space visualized as:
 
-![Alt text](image.png)
+![Alt text](output/ward_optimization_chart.png)
 
 
 ##### Why Different Answers?
