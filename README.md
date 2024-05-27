@@ -64,6 +64,7 @@ Wasted beds are calculated to measure inefficiencies in room allocation. Here is
 #### Linear Programming Optimization Results
 The linear programming optimization (optimizer.py) suggests having 6 double rooms and 14 single rooms. This result is based on minimizing the total number of wasted beds while satisfying the constraints of room availability and patient needs.
 
+#### Exhaustive Combination Results
 The exhaustive combination evaluation implies the best route is 0 Double rooms, and 26 single rooms, with the wasted space visualized as:
 
 ![Alt text](image.png)
