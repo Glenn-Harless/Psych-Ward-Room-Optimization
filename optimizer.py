@@ -4,39 +4,34 @@ import pulp
 class WardOptimizer:
     def __init__(self, data_path):
         self.data = pd.read_csv(data_path)
-    
+        
     def optimize_space(self):
         # Define the problem
         problem = pulp.LpProblem("OptimizeWardSpace", pulp.LpMinimize)
 
         # Define decision variables
-        D = pulp.LpVariable('D', lowBound=0, cat='Integer')  # number of double rooms
-        S = pulp.LpVariable('S', lowBound=0, cat='Integer')  # number of single rooms
+        D = pulp.LpVariable('D', lowBound=0, upBound=13, cat='Integer')  # number of double rooms
+        S = pulp.LpVariable('S', lowBound=0, upBound=26, cat='Integer')  # number of single rooms
 
         # Add constraints
-        problem += 2 * D + S == 26, "TotalBeds"  # Adjusted to count beds instead of rooms
+        problem += 2 * D + S == 26, "TotalCapacity"  # Ensure exactly 26 beds are used
 
         # Objective function to minimize wasted beds
         total_wasted_beds = 0
         for i, row in self.data.iterrows():
             single_rooms_needed = row['Total Single Room Patients']
             double_rooms_needed = row['Double Room Patients']
-            closed_rooms = row['Closed Rooms']
-
+            
             # Variables to calculate room allocation
             single_in_double = pulp.LpVariable(f'single_in_double_{i}', lowBound=0, cat='Integer')
-            unused_double_beds = pulp.LpVariable(f'unused_double_beds_{i}', lowBound=0, cat='Integer')
 
-            # Constraints
-            problem += single_in_double >= single_rooms_needed - S, f"SingleInDoubleConstraint_{i}"
-            problem += single_in_double <= single_rooms_needed, f"SingleInDoubleUpperBound_{i}"
-            problem += unused_double_beds == D * 2 - (double_rooms_needed * 2 + single_in_double), f"UnusedDoubleBeds_{i}"
+            # Constraints to ensure enough rooms
+            problem += S + single_in_double >= single_rooms_needed, f"SingleRoomNeed_{i}"
+            problem += 2 * D >= double_rooms_needed, f"DoubleRoomNeed_{i}"
 
             # Calculate wasted beds
-            wasted_single_in_double = single_in_double
-            total_wasted_beds_day = wasted_single_in_double + unused_double_beds + closed_rooms
-
-            total_wasted_beds += total_wasted_beds_day
+            unused_double_beds = 2 * D - (double_rooms_needed + single_in_double)
+            total_wasted_beds += single_in_double + unused_double_beds  # Only count single in double as wasted if exceeds single rooms needed
 
         problem += total_wasted_beds, "MinimizeWastedBeds"
 
@@ -48,3 +43,10 @@ class WardOptimizer:
         single_rooms = pulp.value(S)
 
         return double_rooms, single_rooms
+
+if __name__ == "__main__":
+    data_path = 'data/CleanOptSheet.csv'
+    optimizer = WardOptimizer(data_path)
+    double_rooms, single_rooms = optimizer.optimize_space()
+    print(f"Optimal number of double rooms: {double_rooms}")
+    print(f"Optimal number of single rooms: {single_rooms}")

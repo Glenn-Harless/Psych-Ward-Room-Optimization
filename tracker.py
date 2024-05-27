@@ -59,3 +59,11 @@ class EfficiencyTracker:
         os.makedirs(os.path.dirname(plot_path), exist_ok=True)
         plt.savefig(plot_path)
         plt.show()
+
+if __name__ == "__main__":
+    data_path = 'data/CleanOptSheet.csv'
+    results_csv_path = 'output/ward_optimization_results.csv'
+    plot_path = 'output/ward_optimization_chart.png'
+
+    tracker = EfficiencyTracker(data_path)
+    tracker.evaluate_combinations(results_csv_path, plot_path)
