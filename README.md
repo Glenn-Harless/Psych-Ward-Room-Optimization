@@ -6,11 +6,12 @@ This project aims to model the most efficient use of space for an inpatient psyc
 
 ## Methodology
 
-The project includes two main scripts:
+The project includes two main scripts
 1. `optimizer.py`: Uses linear programming to find the optimal number of double and single rooms that minimize wasted beds.
 2. `tracker.py`: Evaluates all possible combinations of double and single rooms and tracks the efficiency of each combination.
-3. `main.py`: Calls the above and runs them together
 
+
+`main.py` Runs them together.
 
 ### Optimization Approach
 
