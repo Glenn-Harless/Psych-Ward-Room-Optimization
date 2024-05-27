@@ -80,8 +80,8 @@ The discrepancy between the linear programming optimization and the exhaustive c
 
 The optimizer aims to balance the room allocation over the entire dataset, which might result in a more practical solution for everyday operations, while the tracker identifies the configuration that results in the least wasted beds for each day individually, potentially leading to a solution that is optimal for the dataset but not necessarily practical for day-to-day variability.
 
-Pros and Cons of Each Approach
-1. Linear Programming Optimization (6 Double Rooms, 14 Single Rooms)
+## Pros and Cons of Each Approach
+### 1. Linear Programming Optimization (6 Double Rooms, 14 Single Rooms)
 
 **Pros**:
 
@@ -95,7 +95,7 @@ Pros and Cons of Each Approach
 - Complexity in Allocation: Managing a mix of single and double rooms can be more complex, requiring careful daily planning to ensure efficient usage.
 
 
-2. Exhaustive Combination Evaluation (0 Double Rooms, 26 Single Rooms)
+### 2. Exhaustive Combination Evaluation (0 Double Rooms, 26 Single Rooms)
 
 **Pros**:
 
