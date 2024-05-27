@@ -42,6 +42,23 @@ The efficiency tracker script (`tracker.py`) evaluated all combinations and foun
 
 - **0 double rooms** and **26 single rooms** with **44** wasted beds.
 
+**Calculating Wasted Beds**
+Wasted beds are calculated to measure inefficiencies in room allocation. Here is how wasted beds are determined:
+
+1. Single Room Patients in Double Rooms:
+    - If the number of patients requiring single rooms exceeds the available single rooms, the excess patients are placed in double rooms.
+    - Each single room patient in a double room wastes one bed.
+
+2. Double Room Utilization:
+    - The number of double rooms used is calculated based on the number of double room patients and any excess single room patients placed in double rooms.
+    - Wasted double room beds are the difference between the total double room beds and the beds actually used.
+
+3. Closed Rooms:
+    - Closed rooms directly contribute to wasted beds since they are unavailable for use.
+
+4. Total Wasted Beds:
+    - The total wasted beds for a day are the sum of the wasted single room beds in double rooms, wasted double room beds, and closed rooms.
+
 ## Conclusion
 
 #### Linear Programming Optimization Results
