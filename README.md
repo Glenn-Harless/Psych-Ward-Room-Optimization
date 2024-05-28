@@ -76,15 +76,16 @@ The exhaustive combination evaluation implies the best route is **0 Double rooms
 
 The discrepancy between the linear programming optimization and the exhaustive combination evaluation arises due to the different methodologies and objectives:
 
-- Optimizer.py focuses on finding a balance between double and single rooms to minimize wasted beds over a given period.
-- Tracker.py evaluates all possible combinations and identifies the setup with the absolute minimum number of wasted beds for each specific day, without considering the overall distribution of room types.
+- Optimizer.py focuses on finding the optimal configuration by minimizing wasted beds over the entire period.
+- Tracker.py evaluates all possible combinations and calculates the number of wasted beds for each combination, identifying the setup with the absolute minimum number of wasted beds for each specific day, without considering the overall distribution of room types.
 
-The optimizer aims to balance the room allocation over the entire dataset, which might result in a more practical solution for everyday operations, while the tracker identifies the configuration that results in the least wasted beds for each day individually, potentially leading to a solution that is optimal for the dataset but not necessarily practical for day-to-day variability.
+The optimizer aims to balance the room allocation over the entire dataset, resulting in fewer wasted beds overall, while the tracker identifies the configuration that results in the least wasted beds for each day individually, potentially leading to higher total wasted beds when summed over the period.
+
 ## Pros and Cons of the Optimal Setup (0 Double Rooms, 26 Single Rooms)
 
 **Pros**:
 
-- **Minimal Wasted Beds**: This setup results in the absolute minimum number of wasted beds (178 in the linear programming optimization and 474 in the exhaustive combination evaluation) over the evaluated period, ensuring maximum efficiency.
+- **Minimal Wasted Beds**: This setup results in the minimal number of wasted beds over the evaluated period, ensuring maximum efficiency.
 - **Simplicity**: Having all single rooms simplifies room allocation, as each patient gets a single room regardless of their needs, eliminating the complexity of deciding which patients can share rooms.
 
 **Cons**:
@@ -95,10 +96,11 @@ The optimizer aims to balance the room allocation over the entire dataset, which
 
 #### Recommendation
 
-Based on these findings, the hospital should consider the trade-offs between flexibility and operational constraints but if the priority is to minimize wasted beds, the hospital might lean towards the all-single-room setup (26 single rooms).
+Based on these findings, the hospital should consider the trade-offs between flexibility and operational constraints:
+
+- If the priority is to minimize wasted beds, the hospital might lean towards the all-single-room setup (26 single rooms).
 
 Ultimately, the decision should also factor in other operational considerations such as staffing, patient preferences, and cost implications. Implementing a dynamic allocation system that can adjust room assignments based on daily patient inflow and needs could also be beneficial.
-
 
 ## Usage
 
