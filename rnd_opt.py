@@ -1,5 +1,6 @@
 import pandas as pd
 import pulp
+import matplotlib.pyplot as plt
 
 class WardOptimizer:
     def __init__(self, data_path):
@@ -76,9 +77,63 @@ class WardOptimizer:
         return (double_rooms, single_rooms, total_wasted_beds_value, 
                 total_free_beds_value, solver_status, objective_value)
 
+
+    def calculate_efficiency(self, total_free_beds):
+        # Calculate census: Number of beds occupied by patients
+        census = 26 - total_free_beds
+
+        # Calculate efficiency: Ratio of occupied beds to total beds (26)
+        efficiency = census / 26 if census != 0 else 0
+        return efficiency
+
+    def generate_report(self, report_path, double_rooms, single_rooms, total_wasted_beds, 
+                        total_free_beds, efficiency, solver_status, objective_value):
+        with open(report_path, 'w') as f:
+            f.write("Ward Optimization Report\n")
+            f.write("========================\n")
+            f.write(f"Optimal number of double rooms: {double_rooms}\n")
+            f.write(f"Optimal number of single rooms: {single_rooms}\n")
+            f.write(f"Total wasted beds: {total_wasted_beds}\n")
+            f.write(f"Total free beds: {total_free_beds}\n")
+            f.write(f"Efficiency: {efficiency:.2f}\n")
+            f.write("\nAdditional Information\n")
+            f.write("======================\n")
+            f.write(f"Solver Status: {solver_status}\n")
+            f.write(f"Objective Function Value: {objective_value}\n")
+    
+    def visualize_results(self, double_rooms, single_rooms, total_wasted_beds, total_free_beds, efficiency):
+        # Bar chart for room distribution
+        labels = ['Double Rooms', 'Single Rooms', 'Wasted Beds', 'Free Beds']
+        values = [double_rooms, single_rooms, total_wasted_beds, total_free_beds]
+        
+        plt.figure(figsize=(10, 5))
+        plt.bar(labels, values, color=['blue', 'green', 'red', 'orange'])
+        plt.xlabel('Categories')
+        plt.ylabel('Count')
+        plt.title('Room Distribution and Wasted Beds')
+        plt.savefig('output/room_distribution.png')
+        plt.show()
+        
+        # Pie chart for efficiency
+        occupied_beds = max(0, 26 - total_free_beds)
+        free_beds = max(0, total_free_beds)
+        sizes = [occupied_beds, free_beds]
+        
+        if sum(sizes) > 0:  # Ensure we have a positive sum of sizes
+            labels = ['Occupied Beds', 'Free Beds']
+            colors = ['green', 'red']
+            
+            plt.figure(figsize=(8, 8))
+            plt.pie(sizes, labels=labels, colors=colors, autopct='%1.1f%%', startangle=140)
+            plt.axis('equal')
+            plt.title(f'Bed Occupancy Efficiency: {efficiency:.2f}')
+            plt.savefig('output/bed_efficiency.png')
+            plt.show()
+
 # Usage
 optimizer = WardOptimizer('data/final_census_data.csv')
 results = optimizer.optimize_space(log_path='output/solver_log.txt')
+
 
 # Print the results
 print(f"Optimal number of double rooms: {results[0]}")
