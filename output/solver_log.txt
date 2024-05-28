@@ -1,0 +1,18 @@
+Welcome to the CBC MILP Solver 
+Version: 2.10.3 
+Build Date: Dec 15 2019 
+
+command line - /Users/glennharless/miniconda3/envs/psych_opt/lib/python3.12/site-packages/pulp/solverdir/cbc/osx/64/cbc /var/folders/7m/njx2trb92gs75_vg_zs20px00000gn/T/b819e76b80d646a1945e45f3b61c849e-pulp.mps -timeMode elapsed -branch -printingOptions all -solution /var/folders/7m/njx2trb92gs75_vg_zs20px00000gn/T/b819e76b80d646a1945e45f3b61c849e-pulp.sol (default strategy 1)
+At line 2 NAME          MODEL
+At line 3 ROWS
+At line 5034 COLUMNS
+At line 21807 RHS
+At line 26837 BOUNDS
+At line 29356 ENDATA
+Problem MODEL has 5029 rows, 2518 columns and 11734 elements
+Coin0008I MODEL read with 0 errors
+Option for timeMode changed from cpu to elapsed
+Problem is infeasible - 0.01 seconds
+Option for printingOptions changed from normal to all
+Total time (CPU seconds):       0.02   (Wallclock seconds):       0.02
+

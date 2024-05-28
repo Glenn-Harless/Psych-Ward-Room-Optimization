@@ -21,7 +21,14 @@ The project includes two main scripts:
   - Allow double room patients to occupy either single or double rooms.
 - **Objective Function**: Minimize the total number of wasted beds.
 
-**Linear Programming**: Linear programming is a mathematical method used for optimizing a linear objective function, subject to linear equality and inequality constraints. It is widely used in various fields for resource optimization, scheduling, and planning.
+**Linear Programming**: Linear programming is a mathematical method used for optimizing a linear objective function, subject to linear equality and inequality constraints. It is widely used in various fields for resource optimization, scheduling, and planning. 
+
+A high-level overview of the approach includes:
+1. **Defining the Objective Function**: The objective is to minimize the total number of wasted beds.
+2. **Setting Decision Variables**: The number of double rooms (D) and single rooms (S).
+3. **Establishing Constraints**: Ensuring the total number of beds is 26, and there are enough rooms for patients requiring single rooms while allowing double room patients to occupy any room type.
+4. **Solving the Linear Program**: Using linear programming techniques to find the optimal values for D and S that minimize the objective function.
+5. **Interpreting Results**: Extracting and analyzing the optimal room configuration and the associated number of wasted beds.
 
 ### Tracking Efficiency
 
