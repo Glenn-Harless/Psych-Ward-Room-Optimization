@@ -80,13 +80,16 @@ The efficiency tracker script (`tracker.py`) evaluated all combinations and foun
 
 ## Conclusion
 
+![Alt text](ward_optimization_report.png)
+
 ### Linear Programming Optimization Results
 The linear programming optimization (`optimizer.py`) suggests having **10 double rooms and 6 single rooms**. This result is based on minimizing the total number of wasted beds while satisfying the constraints of room availability and patient needs.
+
 
 ### Exhaustive Combination Results
 The exhaustive combination evaluation implies the best route is **0 Double rooms, and 26 single rooms**, with the wasted space visualized as:
 
-![Alt text](output/ward_optimization_chart.png)
+
 
 ### Why Different Answers?
 
