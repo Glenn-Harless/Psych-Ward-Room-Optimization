@@ -42,9 +42,13 @@ A high-level overview of the approach includes:
 
 The optimization script (`optimizer.py`) provided the following results:
 
-- Optimal number of double rooms: **0**
-- Optimal number of single rooms: **26**
-- Total wasted beds: **178**
+- Optimal number of double rooms: **10.0**
+- Optimal number of single rooms: **6.0**
+- Total wasted beds: **40.0**
+- Total free beds: **0.0**
+- Efficiency: **1.00**
+- Solver Status: **Optimal**
+- Objective Function Value: **40.0**
 
 ### Efficiency Tracking Results
 
@@ -52,56 +56,60 @@ The efficiency tracker script (`tracker.py`) evaluated all combinations and foun
 
 - **0 double rooms** and **26 single rooms** with **474** wasted beds.
 
-**Calculating Wasted Beds**
-Wasted beds are calculated to measure inefficiencies in room allocation. Here is how wasted beds are determined:
+### Detailed Efficiency Results
 
-1. Single Room Patients in Double Rooms:
-    - If the number of patients requiring single rooms exceeds the available single rooms, the excess patients are placed in double rooms.
-    - Each single room patient in a double room wastes one bed.
+| Double Rooms | Single Rooms | Wasted Beds |
+|--------------|--------------|-------------|
+| 0            | 26           | 474.0       |
+| 1            | 24           | 670.0       |
+| 2            | 22           | 918.0       |
+| 3            | 20           | 1250.0      |
+| 4            | 18           | 1630.0      |
+| 5            | 16           | 2126.0      |
+| 6            | 14           | 2700.0      |
+| 7            | 12           | 3420.0      |
+| 8            | 10           | 4226.0      |
+| 9            | 8            | 5168.0      |
+| 10           | 6            | 6345.0      |
+| 11           | 4            | 7851.0      |
+| 12           | 2            | 9497.0      |
+| 13           | 0            | 11170.0     |
 
-2. Double Room Utilization:
-    - The number of double rooms used is calculated based on the number of double room patients and any excess single room patients placed in double rooms.
-    - Wasted double room beds are the difference between the total double room beds and the beds actually used.
-
-3. Closed Rooms:
-    - Closed rooms directly contribute to wasted beds since they are unavailable for use.
-
-4. Total Wasted Beds:
-    - The total wasted beds for a day are the sum of the wasted single room beds in double rooms and wasted double room beds.
+**Most efficient setup:**
+- Double Rooms: **0**
+- Single Rooms: **26**
+- Wasted Beds: **474**
 
 ## Conclusion
 
-#### Linear Programming Optimization Results
-The linear programming optimization (optimizer.py) suggests having **0 double rooms and 26 single rooms**. This result is based on minimizing the total number of wasted beds while satisfying the constraints of room availability and patient needs.
+### Linear Programming Optimization Results
+The linear programming optimization (`optimizer.py`) suggests having **10 double rooms and 6 single rooms**. This result is based on minimizing the total number of wasted beds while satisfying the constraints of room availability and patient needs.
 
-#### Exhaustive Combination Results
+### Exhaustive Combination Results
 The exhaustive combination evaluation implies the best route is **0 Double rooms, and 26 single rooms**, with the wasted space visualized as:
 
 ![Alt text](output/ward_optimization_chart.png)
 
-##### Why Different Answers?
+### Why Different Answers?
 
 The discrepancy between the linear programming optimization and the exhaustive combination evaluation arises due to the different methodologies and objectives:
 
-- Optimizer.py focuses on finding the optimal configuration by minimizing wasted beds over the entire period.
-- Tracker.py evaluates all possible combinations and calculates the number of wasted beds for each combination, identifying the setup with the absolute minimum number of wasted beds for each specific day, without considering the overall distribution of room types.
+- `optimizer.py` focuses on finding the optimal configuration by minimizing wasted beds over the entire period.
+- `tracker.py` evaluates all possible combinations and calculates the number of wasted beds for each combination, identifying the setup with the absolute minimum number of wasted beds for each specific day, without considering the overall distribution of room types.
 
 The optimizer aims to balance the room allocation over the entire dataset, resulting in fewer wasted beds overall, while the tracker identifies the configuration that results in the least wasted beds for each day individually, potentially leading to higher total wasted beds when summed over the period.
 
-## Pros and Cons of the Optimal Setup (0 Double Rooms, 26 Single Rooms)
+### Pros and Cons of the Optimal Setup (10 Double Rooms, 6 Single Rooms)
 
 **Pros**:
-
 - **Minimal Wasted Beds**: This setup results in the minimal number of wasted beds over the evaluated period, ensuring maximum efficiency.
-- **Simplicity**: Having all single rooms simplifies room allocation, as each patient gets a single room regardless of their needs, eliminating the complexity of deciding which patients can share rooms.
+- **Flexibility**: This setup provides flexibility to accommodate different types of patients, ensuring optimal utilization of available space.
 
 **Cons**:
-
-- **Lack of Flexibility**: This setup lacks the flexibility to accommodate patients who can share rooms, potentially leading to underutilization if there are many patients who can be paired.
 - **Operational Constraints**: Hospitals may have operational constraints that require a mix of room types to handle different patient flows, making an all-single-room setup impractical.
 - **Increased Costs**: Single rooms typically require more resources (space, utilities, staffing), potentially increasing operational costs compared to a balanced mix of room types.
 
-#### Recommendation
+## Recommendation
 
 Based on these findings, the hospital should consider the trade-offs between flexibility and operational constraints:
 

@@ -61,7 +61,7 @@ class EfficiencyTracker:
         plt.show()
 
 if __name__ == "__main__":
-    data_path = 'data/CleanOptSheet.csv'
+    data_path = 'data/final_census_data.csv'
     results_csv_path = 'output/ward_optimization_results.csv'
     plot_path = 'output/ward_optimization_chart.png'
 

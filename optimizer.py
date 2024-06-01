@@ -1,7 +1,5 @@
 import pandas as pd
 import pulp
-import math
-import os
 import matplotlib.pyplot as plt
 
 class WardOptimizer:
@@ -15,38 +13,44 @@ class WardOptimizer:
         # Define decision variables
         D = pulp.LpVariable('D', lowBound=0, upBound=13, cat='Integer')  # number of double rooms
         S = pulp.LpVariable('S', lowBound=0, upBound=26, cat='Integer')  # number of single rooms
+        total_wasted_beds = pulp.LpVariable('total_wasted_beds', lowBound=0, cat='Integer')
 
         # Constraint: Total number of beds (2D + S) must equal 26
         problem += 2 * D + S == 26, "TotalBeds"
+        # This constraint ensures that the total number of beds (each double room has 2 beds) equals 26.
 
-        # Objective function to minimize wasted beds
-        total_wasted_beds = 0
+        single_in_double = []
+        unused_double_beds = []
+
         for i, row in self.data.iterrows():
             single_rooms_needed = row['Total Single Room Patients']
             double_rooms_needed = row['Double Room Patients']
-            
+
             # Variables to calculate room allocation
-            single_in_double = pulp.LpVariable(f'single_in_double_{i}', lowBound=0, cat='Integer')
-            unused_double_beds = pulp.LpVariable(f'unused_double_beds_{i}', lowBound=0, cat='Integer')
+            single_in_double.append(pulp.LpVariable(f'single_in_double_{i}', lowBound=0, cat='Integer'))
+            unused_double_beds.append(pulp.LpVariable(f'unused_double_beds_{i}', lowBound=0, cat='Integer'))
 
-            # Constraint: Ensure there are enough single rooms or double rooms accommodating single room patients
-            problem += S + single_in_double >= single_rooms_needed, f"SingleInDouble_{i}"
+            # Ensure there are enough single rooms or double rooms accommodating single room patients
+            problem += S + single_in_double[i] >= single_rooms_needed, f"SingleInDouble_{i}"
+            # This constraint ensures that the number of single rooms plus the number of single patients in double rooms
+            # is at least as many as the single rooms needed for that day.
 
-            # Constraint: Ensure there are enough double rooms for double room patients
+            # Ensure there are enough double rooms for double room patients
             problem += double_rooms_needed <= 2 * D, f"DoubleRoomCapacity_{i}"
+            # This constraint ensures that the number of double rooms can accommodate the double room patients for that day.
 
             # Calculate unused double beds
-            problem += unused_double_beds == 2 * D - double_rooms_needed - single_in_double, f"UnusedDoubleBeds_{i}"
+            problem += unused_double_beds[i] == 2 * D - double_rooms_needed - single_in_double[i], f"UnusedDoubleBeds_{i}"
+            # This constraint calculates the number of unused double beds as the total beds in double rooms
+            # minus the double room patients and the single patients in double rooms.
 
             # Add to total wasted beds
-            total_wasted_beds += single_in_double + unused_double_beds
+            problem += total_wasted_beds >= single_in_double[i] + unused_double_beds[i], f"TotalWastedBeds_{i}"
+            # This constraint ensures that the total wasted beds include single patients in double rooms and unused double beds.
 
-        # Add the objective function to the problem
+        # Objective function to minimize total wasted beds
         problem += total_wasted_beds, "MinimizeWastedBeds"
-
-        # Debugging: Print problem formulation
-        print("Problem formulation:")
-        print(problem)
+        # This objective function aims to minimize the total number of wasted beds.
 
         # Solve the problem with optional logging
         solver = pulp.PULP_CBC_CMD(logPath=log_path)
@@ -55,54 +59,21 @@ class WardOptimizer:
         # Get the results
         double_rooms = pulp.value(D)
         single_rooms = pulp.value(S)
-
-        # Debugging: Print decision variable values
-        print(f"Double Rooms (D): {double_rooms}")
-        print(f"Single Rooms (S): {single_rooms}")
-
-        # Adjust results if necessary (rounding issues)
-        if double_rooms % 1 == 0.5:
-            double_rooms = math.floor(double_rooms)
-            single_rooms += 1
-
-        # Calculate the final total free beds and total wasted beds based on the results
-        total_wasted_beds_value = 0
-        total_free_beds_value = 0
-        for i, row in self.data.iterrows():
-            single_rooms_needed = row['Total Single Room Patients']
-            double_rooms_needed = row['Double Room Patients']
-            
-            # Calculate single_in_double and wasted_single_in_double
-            single_in_double_value = max(0, single_rooms_needed - single_rooms)
-            unused_double_beds_value = max(0, 2 * double_rooms - (double_rooms_needed + single_in_double_value))
-            wasted_beds_day_value = single_in_double_value + unused_double_beds_value
-            total_wasted_beds_value += wasted_beds_day_value
-
-            # Calculate remaining free beds (ensure valid counts)
-            free_beds_day_value = max(0, 2 * double_rooms + single_rooms - (single_rooms_needed + double_rooms_needed))
-            total_free_beds_value += free_beds_day_value
-
-        # Debugging: Print total free beds and total wasted beds values
-        print(f"Total Wasted Beds: {total_wasted_beds_value}")
-        print(f"Total Free Beds: {total_free_beds_value}")
+        total_wasted_beds_value = pulp.value(total_wasted_beds)
 
         # Additional information
         solver_status = pulp.LpStatus[problem.status]
         objective_value = pulp.value(problem.objective)
 
-        return (double_rooms, single_rooms, total_wasted_beds_value, 
-                total_free_beds_value, solver_status, objective_value)
+        # Calculate total free beds (26 beds total minus used beds)
+        total_free_beds_value = 26 - (2 * double_rooms + single_rooms)
 
-    def calculate_efficiency(self, total_free_beds):
-        # Calculate census: Number of beds occupied by patients
-        census = 26 - total_free_beds
+        # Calculate efficiency
+        efficiency = (26 - total_free_beds_value) / 26
 
-        # Calculate efficiency: Ratio of occupied beds to total beds (26)
-        efficiency = census / 26 if census != 0 else 0
-        return efficiency
+        return (double_rooms, single_rooms, total_wasted_beds_value, total_free_beds_value, efficiency, solver_status, objective_value)
 
-    def generate_report(self, report_path, double_rooms, single_rooms, total_wasted_beds, 
-                        total_free_beds, efficiency, solver_status, objective_value):
+    def generate_report(self, report_path, double_rooms, single_rooms, total_wasted_beds, total_free_beds, efficiency, solver_status, objective_value):
         with open(report_path, 'w') as f:
             f.write("Ward Optimization Report\n")
             f.write("========================\n")
@@ -145,28 +116,25 @@ class WardOptimizer:
             plt.savefig('output/bed_efficiency.png')
             plt.show()
 
-if __name__ == "__main__":
-    data_path = 'data/CleanOptSheet.csv'
-    report_path = 'output/ward_optimization_report.txt'
-    log_path = 'output/solver_log.txt'
+# Usage
+data_path = 'data/final_census_data.csv'
+report_path = 'output/ward_optimization_report.txt'
+log_path = 'output/solver_log.txt'
 
-    optimizer = WardOptimizer(data_path)
-    (double_rooms, single_rooms, total_wasted_beds, total_free_beds, 
-     solver_status, objective_value) = optimizer.optimize_space(log_path)
-    efficiency = optimizer.calculate_efficiency(total_free_beds)
-    
-    print("Running Ward Optimization...")
-    print("====================================")
-    print(f"Optimal number of double rooms: {double_rooms}")
-    print(f"Optimal number of single rooms: {single_rooms}")
-    print(f"Total wasted beds: {total_wasted_beds}")
-    print(f"Total free beds: {total_free_beds}")
-    print(f"Efficiency: {efficiency:.2f}")
-    print(f"Solver Status: {solver_status}")
-    print(f"Objective Function Value: {objective_value}")
-    
-    optimizer.generate_report(report_path, double_rooms, single_rooms, total_wasted_beds, 
-                              total_free_beds, efficiency, solver_status, objective_value)
-    optimizer.visualize_results(double_rooms, single_rooms, total_wasted_beds, total_free_beds, efficiency)
-    print(f"Report generated: {report_path}")
-    print(f"Solver log generated: {log_path}")
+optimizer = WardOptimizer(data_path)
+(double_rooms, single_rooms, total_wasted_beds, total_free_beds, efficiency, solver_status, objective_value) = optimizer.optimize_space(log_path)
+
+# Print the results
+print(f"Optimal number of double rooms: {double_rooms}")
+print(f"Optimal number of single rooms: {single_rooms}")
+print(f"Total wasted beds: {total_wasted_beds}")
+print(f"Total free beds: {total_free_beds}")
+print(f"Efficiency: {efficiency:.2f}")
+print(f"Solver status: {solver_status}")
+print(f"Objective function value: {objective_value}")
+
+# Generate report
+optimizer.generate_report(report_path, double_rooms, single_rooms, total_wasted_beds, total_free_beds, efficiency, solver_status, objective_value)
+
+# Visualize results
+optimizer.visualize_results(double_rooms, single_rooms, total_wasted_beds, total_free_beds, efficiency)

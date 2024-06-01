@@ -2,7 +2,6 @@ from optimizer import WardOptimizer
 from tracker import EfficiencyTracker
 
 if __name__ == "__main__":
-    # data_path = 'data/CleanOptSheet.csv' # old data path
     data_path = 'data/final_census_data.csv'
     results_csv_path = 'output/ward_optimization_results.csv'
     plot_path = 'output/ward_optimization_chart.png'
@@ -11,10 +10,8 @@ if __name__ == "__main__":
 
     # Optimize ward space
     optimizer = WardOptimizer(data_path)
-    (double_rooms, single_rooms, total_wasted_beds, total_free_beds, 
-     solver_status, objective_value) = optimizer.optimize_space(log_path)
-    efficiency = optimizer.calculate_efficiency(total_free_beds)
-    
+    double_rooms, single_rooms, total_wasted_beds, total_free_beds, efficiency, solver_status, objective_value = optimizer.optimize_space(log_path)
+
     print("Running Ward Optimization...")
     print("====================================")
     print(f"Optimal number of double rooms: {double_rooms}")
@@ -27,8 +24,7 @@ if __name__ == "__main__":
     print("====================================")
     
     # Generate report
-    optimizer.generate_report(report_path, double_rooms, single_rooms, total_wasted_beds, 
-                              total_free_beds, efficiency, solver_status, objective_value)
+    optimizer.generate_report(report_path, double_rooms, single_rooms, total_wasted_beds, total_free_beds, efficiency, solver_status, objective_value)
     print(f"Report generated: {report_path}")
     print(f"Solver log generated: {log_path}")
 
@@ -36,3 +32,5 @@ if __name__ == "__main__":
     print("Running Efficiency Tracker...")
     tracker = EfficiencyTracker(data_path)
     tracker.evaluate_combinations(results_csv_path, plot_path)
+    print(f"Results saved to: {results_csv_path}")
+    print(f"Chart saved to: {plot_path}")

@@ -1,12 +1,12 @@
 Ward Optimization Report
 ========================
-Optimal number of double rooms: 7.0
-Optimal number of single rooms: 12.0
-Total wasted beds: 739.0
-Total free beds: 1260.0
-Efficiency: -47.46
+Optimal number of double rooms: 10.0
+Optimal number of single rooms: 6.0
+Total wasted beds: 40.0
+Total free beds: 0.0
+Efficiency: 1.00
 
 Additional Information
 ======================
 Solver Status: Optimal
-Objective Function Value: 739.0
+Objective Function Value: 40.0
