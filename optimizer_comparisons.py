@@ -22,7 +22,32 @@ class Visualizer:
 
         return wasted_beds
 
-    def plot_combined_results(self, optimization_result, plot_path):
+    def create_visualization(self, plot_path):
+        double_rooms = np.arange(0, 14)
+        single_rooms = np.arange(0, 27)
+        D, S = np.meshgrid(double_rooms, single_rooms)
+        wasted_beds = np.zeros_like(D, dtype=float)
+
+        for i in range(D.shape[0]):
+            for j in range(D.shape[1]):
+                if 2 * D[i, j] + S[i, j] <= 26:
+                    wasted_beds[i, j] = self.calculate_wasted_beds(D[i, j], S[i, j])
+                else:
+                    wasted_beds[i, j] = np.nan
+
+        fig = plt.figure(figsize=(12, 8))
+        ax = fig.add_subplot(111, projection='3d')
+        ax.plot_surface(D, S, wasted_beds, cmap='viridis')
+
+        ax.set_xlabel('Number of Double Rooms')
+        ax.set_ylabel('Number of Single Rooms')
+        ax.set_zlabel('Total Wasted Beds')
+        ax.set_title('Wasted Beds as a Function of Double and Single Rooms')
+        
+        plt.savefig(plot_path)
+        plt.show()
+
+    def plot_wasted_beds_vs_double_rooms(self, plot_path):
         double_rooms = np.arange(0, 14)
         wasted_beds = []
 
@@ -34,16 +59,10 @@ class Visualizer:
                 wasted_beds.append(np.nan)
 
         plt.figure(figsize=(10, 6))
-        plt.plot(double_rooms, wasted_beds, marker='o', linestyle='-', label='Exhaustive Combination')
-        
-        # Highlight the optimal solution found by the optimization
-        opt_D, opt_S, opt_wasted_beds = optimization_result
-        plt.scatter([opt_D], [opt_wasted_beds], color='red', zorder=5, label='Optimal Solution')
-
+        plt.plot(double_rooms, wasted_beds, marker='o', linestyle='-')
         plt.xlabel('Number of Double Rooms')
         plt.ylabel('Total Wasted Beds')
-        plt.title('Wasted Beds: Exhaustive Combination vs Optimal Solution')
-        plt.legend()
+        plt.title('Wasted Beds as a Function of Double Rooms')
         plt.grid(True)
         plt.savefig(plot_path)
         plt.show()
@@ -51,11 +70,9 @@ class Visualizer:
 # Usage
 if __name__ == "__main__":
     data_path = 'data/final_census_data.csv'
-    plot_path = 'output/combined_results_visualization.png'
+    surface_plot_path = 'output/wasted_beds_visualization.png'
+    line_plot_path = 'output/wasted_beds_vs_double_rooms.png'
 
     visualizer = Visualizer(data_path)
-    
-    # Assume the optimization result is (10, 6, 40) for (double_rooms, single_rooms, wasted_beds)
-    optimization_result = (10, 6, 40)
-    
-    visualizer.plot_combined_results(optimization_result, plot_path)
+    visualizer.create_visualization(surface_plot_path)
+    visualizer.plot_wasted_beds_vs_double_rooms(line_plot_path)
