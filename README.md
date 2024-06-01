@@ -21,8 +21,6 @@ The project includes two main scripts:
   - Allow double room patients to occupy either single or double rooms.
 - **Objective Function**: Minimize the total number of wasted beds.
 
-**Linear Programming**: Linear programming is a mathematical method used for optimizing a linear objective function, subject to linear equality and inequality constraints. It is widely used in various fields for resource optimization, scheduling, and planning. 
-
 A high-level overview of the approach includes:
 1. **Defining the Objective Function**: The objective is to minimize the total number of wasted beds.
 2. **Setting Decision Variables**: The number of double rooms (D) and single rooms (S).
@@ -102,20 +100,42 @@ The optimizer aims to balance the room allocation over the entire dataset, resul
 ### Pros and Cons of the Optimal Setup (10 Double Rooms, 6 Single Rooms)
 
 **Pros**:
-- **Minimal Wasted Beds**: This setup results in the minimal number of wasted beds over the evaluated period, ensuring maximum efficiency.
 - **Flexibility**: This setup provides flexibility to accommodate different types of patients, ensuring optimal utilization of available space.
+- **Balanced Utilization**: By having both double and single rooms, the setup can efficiently handle varying patient needs, reducing the chances of underutilization.
 
 **Cons**:
-- **Operational Constraints**: Hospitals may have operational constraints that require a mix of room types to handle different patient flows, making an all-single-room setup impractical.
+- **Complexity in Room Allocation**: Managing a mix of double and single rooms can be more complex, requiring careful planning to ensure patients are assigned appropriately.
+- **Potential Wasted Beds**: Although this setup is optimal for minimizing wasted beds over the evaluated period, it still results in some wasted beds.
+
+### Pros and Cons of the Optimal Setup (10 Double Rooms, 6 Single Rooms)
+
+**Pros**:
+- **Minimal Wasted Beds**: This setup results in the least number of wasted beds (40) over the evaluated period, ensuring maximum efficiency.
+- **Flexibility**: This setup provides flexibility to accommodate different types of patients, ensuring optimal utilization of available space.
+- **Balanced Utilization**: By having both double and single rooms, the setup can efficiently handle varying patient needs, reducing the chances of underutilization.
+
+**Cons**:
+- **Complexity in Room Allocation**: Managing a mix of double and single rooms can be more complex, requiring careful planning to ensure patients are assigned appropriately.
+
+### Pros and Cons of the Most Efficient Setup (0 Double Rooms, 26 Single Rooms)
+
+**Pros**:
+- **Simplicity**: Having all single rooms simplifies room allocation, as each patient gets a single room regardless of their needs, eliminating the complexity of deciding which patients can share rooms.
+
+**Cons**:
+- **Higher Wasted Beds**: This setup results in more wasted beds (474) over the evaluated period compared to the optimal setup.
+- **Lack of Flexibility**: This setup lacks the flexibility to accommodate patients who can share rooms, potentially leading to underutilization if there are many patients who can be paired.
 - **Increased Costs**: Single rooms typically require more resources (space, utilities, staffing), potentially increasing operational costs compared to a balanced mix of room types.
 
 ## Recommendation
 
 Based on these findings, the hospital should consider the trade-offs between flexibility and operational constraints:
 
-- If the priority is to minimize wasted beds, the hospital might lean towards the all-single-room setup (26 single rooms).
+- If the priority is to minimize wasted beds, the hospital should opt for the optimal setup (10 double rooms and 6 single rooms), which resulted in only 40 wasted beds.
+- If operational simplicity and minimizing complexity in room allocation are important, the hospital might consider the all-single-room setup (0 double rooms, 26 single rooms), even though it results in more wasted beds (474).
 
 Ultimately, the decision should also factor in other operational considerations such as staffing, patient preferences, and cost implications. Implementing a dynamic allocation system that can adjust room assignments based on daily patient inflow and needs could also be beneficial.
+
 
 ## Usage
 
