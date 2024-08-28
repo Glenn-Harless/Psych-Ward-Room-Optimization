@@ -1,6 +1,7 @@
 import pulp
 import pandas as pd
 
+
 class WardOptimizer:
     def __init__(self, data_path):
         self.data = pd.read_csv(data_path)

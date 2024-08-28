@@ -2,59 +2,43 @@ Welcome to the CBC MILP Solver
 Version: 2.10.3 
 Build Date: Dec 15 2019 
 
-command line - /Users/glennharless/miniconda3/envs/psych_opt/lib/python3.12/site-packages/pulp/solverdir/cbc/osx/64/cbc /var/folders/7m/njx2trb92gs75_vg_zs20px00000gn/T/c334f91143e2494db7a1ace84e6e9433-pulp.mps -timeMode elapsed -branch -printingOptions all -solution /var/folders/7m/njx2trb92gs75_vg_zs20px00000gn/T/c334f91143e2494db7a1ace84e6e9433-pulp.sol (default strategy 1)
+command line - /Users/glennharless/miniconda3/envs/psych_opt/lib/python3.12/site-packages/pulp/solverdir/cbc/osx/64/cbc /var/folders/7m/njx2trb92gs75_vg_zs20px00000gn/T/c3de40f92f194b2c9daeae4dd053642f-pulp.mps -timeMode elapsed -branch -printingOptions all -solution /var/folders/7m/njx2trb92gs75_vg_zs20px00000gn/T/c3de40f92f194b2c9daeae4dd053642f-pulp.sol (default strategy 1)
 At line 2 NAME          MODEL
 At line 3 ROWS
-At line 3410 COLUMNS
-At line 14483 RHS
-Bad image at line 17837 <     RHS       C0003353   nan >
-Bad image at line 17838 <     RHS       C0003354   nan >
-Bad image at line 17839 <     RHS       C0003355   nan >
-Bad image at line 17841 <     RHS       C0003357   nan >
-Bad image at line 17842 <     RHS       C0003358   nan >
-Bad image at line 17843 <     RHS       C0003359   nan >
-Bad image at line 17845 <     RHS       C0003361   nan >
-Bad image at line 17846 <     RHS       C0003362   nan >
-Bad image at line 17847 <     RHS       C0003363   nan >
-Bad image at line 17849 <     RHS       C0003365   nan >
-Bad image at line 17850 <     RHS       C0003366   nan >
-Bad image at line 17851 <     RHS       C0003367   nan >
-Bad image at line 17853 <     RHS       C0003369   nan >
-Bad image at line 17854 <     RHS       C0003370   nan >
-Bad image at line 17855 <     RHS       C0003371   nan >
-Bad image at line 17857 <     RHS       C0003373   nan >
-Bad image at line 17858 <     RHS       C0003374   nan >
-Bad image at line 17859 <     RHS       C0003375   nan >
-Bad image at line 17861 <     RHS       C0003377   nan >
-Bad image at line 17862 <     RHS       C0003378   nan >
-Bad image at line 17863 <     RHS       C0003379   nan >
-Bad image at line 17865 <     RHS       C0003381   nan >
-Bad image at line 17866 <     RHS       C0003382   nan >
-Bad image at line 17867 <     RHS       C0003383   nan >
-Bad image at line 17869 <     RHS       C0003385   nan >
-Bad image at line 17870 <     RHS       C0003386   nan >
-Bad image at line 17871 <     RHS       C0003387   nan >
-Bad image at line 17873 <     RHS       C0003389   nan >
-Bad image at line 17874 <     RHS       C0003390   nan >
-Bad image at line 17875 <     RHS       C0003391   nan >
-Bad image at line 17877 <     RHS       C0003393   nan >
-Bad image at line 17878 <     RHS       C0003394   nan >
-Bad image at line 17879 <     RHS       C0003395   nan >
-Bad image at line 17881 <     RHS       C0003397   nan >
-Bad image at line 17882 <     RHS       C0003398   nan >
-Bad image at line 17883 <     RHS       C0003399   nan >
-Bad image at line 17885 <     RHS       C0003401   nan >
-Bad image at line 17886 <     RHS       C0003402   nan >
-Bad image at line 17887 <     RHS       C0003403   nan >
-At line 17889 BOUNDS
-At line 19595 ENDATA
-Problem MODEL has 3405 rows, 1705 columns and 7661 elements
-Coin0008I MODEL read with 39 errors
-There were 39 errors on input
+At line 3358 COLUMNS
+At line 14262 RHS
+At line 17616 BOUNDS
+At line 19296 ENDATA
+Problem MODEL has 3353 rows, 1679 columns and 7544 elements
+Coin0008I MODEL read with 0 errors
 Option for timeMode changed from cpu to elapsed
-** Current model not valid
+Continuous objective value is 19 - 0.01 seconds
+Cgl0003I 0 fixed, 13 tightened bounds, 0 strengthened rows, 0 substitutions
+Cgl0004I processed model has 436 rows, 292 columns (292 integer (0 of which binary)) and 1162 elements
+Cutoff increment increased from 1e-05 to 0.9999
+Cbc0045I 1 integer variables out of 292 objects (292 integer) have cost of 1 - high priority
+Cbc0045I branch on satisfied Y create fake objective Y random cost Y
+Cbc0012I Integer solution of 20 found by DiveCoefficient after 0 iterations and 0 nodes (0.03 seconds)
+Cbc0001I Search completed - best objective 20, took 0 iterations and 0 nodes (0.03 seconds)
+Cbc0035I Maximum depth 0, 0 variables fixed on reduced cost
+Cuts at root node changed objective from 20 to 20
+Probing was tried 0 times and created 0 cuts of which 0 were active after adding rounds of cuts (0.000 seconds)
+Gomory was tried 0 times and created 0 cuts of which 0 were active after adding rounds of cuts (0.000 seconds)
+Knapsack was tried 0 times and created 0 cuts of which 0 were active after adding rounds of cuts (0.000 seconds)
+Clique was tried 0 times and created 0 cuts of which 0 were active after adding rounds of cuts (0.000 seconds)
+MixedIntegerRounding2 was tried 0 times and created 0 cuts of which 0 were active after adding rounds of cuts (0.000 seconds)
+FlowCover was tried 0 times and created 0 cuts of which 0 were active after adding rounds of cuts (0.000 seconds)
+TwoMirCuts was tried 0 times and created 0 cuts of which 0 were active after adding rounds of cuts (0.000 seconds)
+ZeroHalf was tried 0 times and created 0 cuts of which 0 were active after adding rounds of cuts (0.000 seconds)
+
+Result - Optimal solution found
+
+Objective value:                20.00000000
+Enumerated nodes:               0
+Total iterations:               0
+Time (CPU seconds):             0.03
+Time (Wallclock seconds):       0.04
+
 Option for printingOptions changed from normal to all
-** Current model not valid
-No match for /var/folders/7m/njx2trb92gs75_vg_zs20px00000gn/T/c334f91143e2494db7a1ace84e6e9433-pulp.sol - ? for list of commands
-Total time (CPU seconds):       0.00   (Wallclock seconds):       0.01
+Total time (CPU seconds):       0.04   (Wallclock seconds):       0.04
 
