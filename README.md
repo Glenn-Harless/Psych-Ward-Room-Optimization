@@ -103,16 +103,6 @@ The optimizer aims to balance the room allocation over the entire dataset, resul
 ### Pros and Cons of the Optimal Setup (10 Double Rooms, 6 Single Rooms)
 
 **Pros**:
-- **Flexibility**: This setup provides flexibility to accommodate different types of patients, ensuring optimal utilization of available space.
-- **Balanced Utilization**: By having both double and single rooms, the setup can efficiently handle varying patient needs, reducing the chances of underutilization.
-
-**Cons**:
-- **Complexity in Room Allocation**: Managing a mix of double and single rooms can be more complex, requiring careful planning to ensure patients are assigned appropriately.
-- **Potential Wasted Beds**: Although this setup is optimal for minimizing wasted beds over the evaluated period, it still results in some wasted beds.
-
-### Pros and Cons of the Optimal Setup (10 Double Rooms, 6 Single Rooms)
-
-**Pros**:
 - **Minimal Wasted Beds**: This setup results in the least number of wasted beds (40) over the evaluated period, ensuring maximum efficiency.
 - **Flexibility**: This setup provides flexibility to accommodate different types of patients, ensuring optimal utilization of available space.
 - **Balanced Utilization**: By having both double and single rooms, the setup can efficiently handle varying patient needs, reducing the chances of underutilization.

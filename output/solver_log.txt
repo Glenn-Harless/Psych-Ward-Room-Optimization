@@ -1,8 +1,8 @@
 Welcome to the CBC MILP Solver 
-Version: 2.10.3 
-Build Date: Dec 15 2019 
+Version: 2.10.10 
+Build Date: Sep 26 2023 
 
-command line - /Users/glennharless/miniconda3/envs/psych_opt/lib/python3.12/site-packages/pulp/solverdir/cbc/osx/64/cbc /var/folders/7m/njx2trb92gs75_vg_zs20px00000gn/T/30b6e8e49a304d41beb510f63ff4b502-pulp.mps -timeMode elapsed -branch -printingOptions all -solution /var/folders/7m/njx2trb92gs75_vg_zs20px00000gn/T/30b6e8e49a304d41beb510f63ff4b502-pulp.sol (default strategy 1)
+command line - /usr/local/lib/python3.9/site-packages/pulp/solverdir/cbc/linux/arm64/cbc /tmp/6e63967f38974b5c94b1c39176f49196-pulp.mps -timeMode elapsed -branch -printingOptions all -solution /tmp/6e63967f38974b5c94b1c39176f49196-pulp.sol (default strategy 1)
 At line 2 NAME          MODEL
 At line 3 ROWS
 At line 3358 COLUMNS
@@ -13,7 +13,7 @@ Problem MODEL has 3353 rows, 1679 columns and 7544 elements
 Coin0008I MODEL read with 0 errors
 Option for timeMode changed from cpu to elapsed
 Continuous objective value is 39 - 0.01 seconds
-Cgl0003I 0 fixed, 5 tightened bounds, 0 strengthened rows, 0 substitutions
+Cgl0003I 0 fixed, 1 tightened bounds, 0 strengthened rows, 0 substitutions
 Cgl0004I processed model has 37 rows, 26 columns (26 integer (0 of which binary)) and 98 elements
 Cutoff increment increased from 1e-05 to 0.9999
 Cbc0012I Integer solution of 40 found by DiveCoefficient after 0 iterations and 0 nodes (0.02 seconds)
@@ -34,9 +34,9 @@ Result - Optimal solution found
 Objective value:                40.00000000
 Enumerated nodes:               0
 Total iterations:               0
-Time (CPU seconds):             0.03
-Time (Wallclock seconds):       0.03
+Time (CPU seconds):             0.02
+Time (Wallclock seconds):       0.02
 
 Option for printingOptions changed from normal to all
-Total time (CPU seconds):       0.04   (Wallclock seconds):       0.04
+Total time (CPU seconds):       0.02   (Wallclock seconds):       0.03
 
