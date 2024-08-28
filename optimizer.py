@@ -59,6 +59,14 @@ but the total availale beds becomes 26 - (that difference)
 
  - If census is 12, held beds is 14 then single room patients = 12, double room patients = 0
 
+ 
+ Output goals:
+ - Graphs:
+    Show wasted beds under old model compared with wasted beds under new model
+        Cumulative
+        Daily
+
+    Have a spreadsheet to go along with that
 """
 
 class WardOptimizer:
