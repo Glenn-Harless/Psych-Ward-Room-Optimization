@@ -1,6 +1,7 @@
 import pulp
 import pandas as pd
 
+
 class WardOptimizer:
     def __init__(self, data_path):
         self.data = pd.read_csv(data_path)
@@ -9,7 +10,7 @@ class WardOptimizer:
         # Define the problem
         problem = pulp.LpProblem("OptimizeWardSpace", pulp.LpMinimize)
 
-        # Decision Variables
+        # Define decision variables
         D = pulp.LpVariable('D', lowBound=0, upBound=13, cat='Integer')  # number of double rooms
         S = pulp.LpVariable('S', lowBound=0, upBound=26, cat='Integer')  # number of single rooms
         total_wasted_beds = pulp.LpVariable('total_wasted_beds', lowBound=0, cat='Integer')
@@ -20,10 +21,7 @@ class WardOptimizer:
         single_in_double = []
         unused_double_beds = []
 
-        # Filter to only the most recent year(s) of data (2023 and 2024)
-        recent_year_data = self.data[self.data['Month'].apply(lambda x: x.split('-')[-1]).isin(['2023', '2024'])]
-
-        for i, row in recent_year_data.iterrows():
+        for i, row in self.data.iterrows():
             single_rooms_needed = row['Total Single Room Patients']
             double_rooms_needed = row['Double Room Patients']
 
@@ -71,17 +69,47 @@ class WardOptimizer:
         return (double_rooms, single_rooms, total_wasted_beds_value, total_free_beds_value, efficiency, solver_status, objective_value)
 
 # Usage
-if __name__ == "__main__":
-    data_path = 'data/final_census_data.csv'
-    log_path = 'output/solver_log.txt'
+data_path = 'data/final_census_data.csv'
+log_path = 'output/solver_log.txt'
 
-    optimizer = WardOptimizer(data_path)
-    (double_rooms, single_rooms, total_wasted_beds, total_free_beds, efficiency, solver_status, objective_value) = optimizer.optimize_space(log_path)
+optimizer = WardOptimizer(data_path)
+(double_rooms, single_rooms, total_wasted_beds, total_free_beds, efficiency, solver_status, objective_value) = optimizer.optimize_space(log_path)
 
-    print(f"Optimal number of double rooms: {double_rooms}")
-    print(f"Optimal number of single rooms: {single_rooms}")
-    print(f"Total wasted beds: {total_wasted_beds}")
-    print(f"Total free beds: {total_free_beds}")
-    print(f"Efficiency: {efficiency:.2f}")
-    print(f"Solver status: {solver_status}")
-    print(f"Objective function value: {objective_value}")
+# Print the results
+print(f"Optimal number of double rooms: {double_rooms}")
+print(f"Optimal number of single rooms: {single_rooms}")
+print(f"Total wasted beds: {total_wasted_beds}")
+print(f"Total free beds: {total_free_beds}")
+print(f"Efficiency: {efficiency:.2f}")
+print(f"Solver status: {solver_status}")
+print(f"Objective function value: {objective_value}")
+
+# Check the objective value for (0, 26)
+D, S = 0, 26
+wasted_beds_0_26 = 0
+for i, row in optimizer.data.iterrows():
+    single_rooms_needed = row['Total Single Room Patients']
+    double_rooms_needed = row['Double Room Patients']
+    single_in_double = max(0, single_rooms_needed - S)
+    wasted_single_in_double = single_in_double
+    used_double_beds = min(D * 2, double_rooms_needed * 2 + single_in_double)
+    wasted_double_beds = D * 2 - used_double_beds
+    closed_rooms = row['Closed Rooms']
+    wasted_beds_0_26 += wasted_single_in_double + wasted_double_beds + closed_rooms
+
+print(f"Objective value for (D=0, S=26): {wasted_beds_0_26} wasted beds")
+
+# Check the objective value for the optimal solution from the LP model
+wasted_beds_opt = 0
+D, S = double_rooms, single_rooms
+for i, row in optimizer.data.iterrows():
+    single_rooms_needed = row['Total Single Room Patients']
+    double_rooms_needed = row['Double Room Patients']
+    single_in_double = max(0, single_rooms_needed - S)
+    wasted_single_in_double = single_in_double
+    used_double_beds = min(D * 2, double_rooms_needed * 2 + single_in_double)
+    wasted_double_beds = D * 2 - used_double_beds
+    closed_rooms = row['Closed Rooms']
+    wasted_beds_opt += wasted_single_in_double + wasted_double_beds + closed_rooms
+
+print(f"Objective value for optimal solution (D={D}, S={S}): {wasted_beds_opt} wasted beds")

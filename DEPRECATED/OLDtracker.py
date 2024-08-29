@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import os
 
-# TODO this is just a brute force method that shows given historical data 26 single rooms is best use of beds
+
 class EfficiencyTracker:
     def __init__(self, data_path):
         self.data = pd.read_csv(data_path)
