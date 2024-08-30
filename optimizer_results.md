@@ -129,8 +129,6 @@ The optimized model clearly outperforms the current model in terms of minimizing
 
 While the optimized model provides significant improvements, there are other factors that need to be considered:
 
-- **Patient Preferences:** Some patients might prefer double rooms even if single rooms are available.
-- **Operational Constraints:** Changes in staffing or patient flow might affect the optimal room configuration.
 - **Long-Term Trends:** The model could be further refined by analyzing long-term trends in patient needs and room utilization.
 
 ## Future Plans
@@ -138,5 +136,4 @@ While the optimized model provides significant improvements, there are other fac
 To build on the success of this project, the following steps could be taken:
 
 - **Dynamic Allocation:** Implement a system that dynamically adjusts room assignments based on real-time data.
-- **Further Optimization:** Explore multi-objective optimization to balance patient preferences with bed utilization.
 - **Expand Scope:** Consider expanding the model to optimize other resources, such as staff or medical equipment.
