@@ -1,6 +1,6 @@
 import pandas as pd
 
-def process_sheet(df):
+def process_sheet(df, sheet_name: str, year: str):
     df = df.reset_index(drop=True)
 
 
@@ -31,22 +31,37 @@ def process_sheet(df):
     df['Single Room E'] = df['Single Room E'].astype(float)
     df['Single Room F'] = df['Single Room F'].astype(float)
     df['Total Single Room Patients'] = df['Single Room E'] + df['Single Room F']
+
+    # If Total Single Rooms (held beds) > Total Census Rooms, set Total Single Rooms to Total Census Rooms, 
+    df['Total Single Room Patients'] = df[['Total Single Room Patients', 'Total Census Rooms']].min(axis=1)
+
     df['Double Room Patients'] = df['Total Census Rooms'].astype(float) - df['Total Single Room Patients']
     df['Total Patients for Day'] = df['Total Single Room Patients'] + df['Double Room Patients']
 
+
     # Select final columns
-    df = df[['Day', 'Single Room E', 'Single Room F', 'Total Single Room Patients', 'Double Room Patients', 'Total Patients for Day', 'Closed Rooms']]
+    df = df[
+        [
+            'Day', 'Single Room E', 'Single Room F', 
+            'Total Single Room Patients', 'Double Room Patients', 
+            'Total Patients for Day', 'Closed Rooms', 'Total Census Rooms'
+        ]
+    ]
+    df['Month'] = sheet_name + '-' + year
     return df
 
 def process_workbooks(file_paths):
     all_data_frames = []
 
     for file_path in file_paths:
+        # Get year from file path
+        # example file path: Monthly Census 2022.xlsx
+        year = file_path.split(' ')[-1].split('.')[0]
         xls = pd.ExcelFile(file_path)
         for sheet_name in xls.sheet_names:
             if len(sheet_name) == 3:
                 df = pd.read_excel(xls, sheet_name=sheet_name, skiprows=4)
-                processed_df = process_sheet(df)
+                processed_df = process_sheet(df, sheet_name, year)
                 all_data_frames.append(processed_df)
 
     # Concatenate all dataframes
