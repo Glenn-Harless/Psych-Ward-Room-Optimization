@@ -1,3 +1,4 @@
+
 # Inpatient Psych Ward Space Optimization Report
 
 ## Introduction
@@ -19,14 +20,10 @@ In this study, "efficiency" refers to the effective utilization of available bed
 ### Efficiency Calculation
 
 - **Daily Efficiency:** This is calculated on a daily basis as:
-  \[
-  \text{Daily Efficiency} = \frac{\text{Total Available Beds} - \text{Wasted Beds}}{\text{Total Available Beds}}
-  \]
+  `Daily Efficiency = (Total Available Beds - Wasted Beds) / Total Available Beds`
 
 - **Cumulative Efficiency:** This tracks efficiency over time, providing insight into long-term trends in bed utilization:
-  \[
-  \text{Cumulative Efficiency} = \frac{\text{Cumulative Occupied Beds}}{\text{Cumulative Available Beds}}
-  \]
+  `Cumulative Efficiency = Cumulative Occupied Beds / Cumulative Available Beds`
 
 The goal is to maximize efficiency, ensuring that as few beds as possible are wasted while meeting the needs of patients.
 
@@ -42,7 +39,7 @@ The objective function is the function that we want to minimize or maximize. In 
 
 **Mathematically:**
 
-\[ \text{Minimize: } \text{total\_wasted\_beds} \]
+Minimize: `total_wasted_beds`
 
 Where `total_wasted_beds` is the sum of unused double beds and single-room patients placed in double rooms (which leaves one bed in the double room wasted).
 
@@ -64,23 +61,23 @@ Constraints are the conditions that must be satisfied in the model. In this opti
 
 1. **Total Bed Constraint:**
    - The total number of beds in the ward is fixed at 26. Since each double room has 2 beds, the constraint is expressed as:
-   \[ 2D + S = 26 \]
+   `2D + S = 26`
 
 2. **Single Room Capacity Constraint:**
    - The number of single rooms plus any single-room patients placed in double rooms must be greater than or equal to the number of patients requiring single rooms on any given day:
-   \[ S + \text{single\_in\_double}_i \geq \text{single\_rooms\_needed}_i \]
+   `S + single_in_double_i >= single_rooms_needed_i`
 
 3. **Double Room Capacity Constraint:**
    - The number of double rooms should be sufficient to accommodate the patients who can share rooms:
-   \[ \text{double\_rooms\_needed}_i \leq 2D \]
+   `double_rooms_needed_i <= 2D`
 
 4. **Unused Double Beds Calculation:**
    - Unused double beds are calculated based on the number of available beds in double rooms minus the number of double-room patients and single-room patients placed in double rooms:
-   \[ \text{unused\_double\_beds}_i = 2D - \text{double\_rooms\_needed}_i - \text{single\_in\_double}_i \]
+   `unused_double_beds_i = 2D - double_rooms_needed_i - single_in_double_i`
 
 5. **Total Wasted Beds:**
    - The total wasted beds is the sum of single-room patients in double rooms and unused double beds. The optimizer aims to minimize this value:
-   \[ \text{total\_wasted\_beds} \geq \text{single\_in\_double}_i + \text{unused\_double\_beds}_i \]
+   `total_wasted_beds >= single_in_double_i + unused_double_beds_i`
 
 ### Solver and Results
 
