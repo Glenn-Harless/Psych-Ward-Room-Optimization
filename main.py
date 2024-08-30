@@ -22,6 +22,8 @@ def main():
     optimized_df.to_csv(optimized_output_path, index=False)
     
     # Visualize the results
+    current_df = pd.read_csv('output/current_model_data.csv')
+    optimized_df = pd.read_csv('output/optimized_model_data.csv')
     visualizer = Visualizer(current_df, optimized_df)
     
     visualizer.plot_wasted_beds_comparison(os.path.join(output_dir, 'wasted_beds_comparison.png'))
