@@ -3,7 +3,6 @@ import pandas as pd
 def process_sheet(df, sheet_name: str, year: str):
     df = df.reset_index(drop=True)
 
-
     # Cut the dataframe to only keep rows above 'Monthly Totals'
     if 'Monthly Totals' in df.iloc[:, 0].values:
         cut_off_index = df[df.iloc[:, 0] == 'Monthly Totals'].index[0]
@@ -38,16 +37,18 @@ def process_sheet(df, sheet_name: str, year: str):
     df['Double Room Patients'] = df['Total Census Rooms'].astype(float) - df['Total Single Room Patients']
     df['Total Patients for Day'] = df['Total Single Room Patients'] + df['Double Room Patients']
 
+    # Generate exact date based on the sheet_name (Month) and year
+    df['Day'] = df.index + 1  # Assuming the first row corresponds to the 1st of the month
+    df['Date'] = pd.to_datetime(df['Day'].astype(str) + '-' + sheet_name + '-' + year, format='%d-%b-%Y')
 
     # Select final columns
     df = df[
         [
-            'Day', 'Single Room E', 'Single Room F', 
+            'Date', 'Day', 'Single Room E', 'Single Room F', 
             'Total Single Room Patients', 'Double Room Patients', 
             'Total Patients for Day', 'Closed Rooms', 'Total Census Rooms'
         ]
     ]
-    df['Month'] = sheet_name + '-' + year
     return df
 
 def process_workbooks(file_paths):

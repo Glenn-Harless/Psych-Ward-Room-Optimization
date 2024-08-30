@@ -10,14 +10,15 @@ class OptimizedModelEvaluator:
         records = []
 
         # Consider only the most recent year(s) of data (2023 and 2024)
-        recent_year_data = self.data[self.data['Month'].apply(lambda x: x.split('-')[-1]).isin(['2023', '2024'])]
+        self.data["Date"] = pd.to_datetime(self.data["Date"])
+        self.data.dropna(subset=['Single Room E'], inplace=True)
+        recent_year_data = self.data[self.data['Date'].dt.year.isin([2023, 2024])]
 
         running_sum_available_beds = 0
         running_sum_wasted_beds = 0
 
-        for i, row in recent_year_data.iterrows():
-            date_str = f"{row['Month'][:3]}-01-{row['Month'][-4:]}"  # Assumes format like "Jan-2022"
-            date = pd.to_datetime(date_str) + pd.to_timedelta(i, unit='D')
+        for _, row in recent_year_data.iterrows():
+            date = pd.to_datetime(row['Date'])
 
             available_beds = 26 - row['Closed Rooms']
             single_room_patients = row['Total Single Room Patients']
