@@ -16,33 +16,45 @@ class OptimizedModelEvaluator:
 
         running_sum_available_beds = 0
         running_sum_wasted_beds = 0
+        running_sum_wasted_potential = 0
 
         for _, row in recent_year_data.iterrows():
             date = pd.to_datetime(row['Date'])
 
             available_beds = 26 - row['Closed Rooms']
             single_room_patients = row['Total Single Room Patients']
+            double_room_patients = row['Double Room Patients']
 
-            # Calculate wasted beds
+            # Calculate wasted beds (single room patients in double rooms)
             if single_room_patients > self.single_rooms:
                 wasted_single_in_double = single_room_patients - self.single_rooms
             else:
                 wasted_single_in_double = 0
 
+            # Calculate wasted potential (double room patients in single rooms)
+            if double_room_patients > 2 * self.double_rooms:
+                wasted_double_in_single = double_room_patients - 2 * self.double_rooms
+            else:
+                wasted_double_in_single = 0
+
             wasted_beds = wasted_single_in_double
+            wasted_potential = wasted_double_in_single
             running_sum_available_beds += available_beds
             running_sum_wasted_beds += wasted_beds
+            running_sum_wasted_potential += wasted_potential
 
-            daily_efficiency = (available_beds - wasted_beds) / available_beds if available_beds > 0 else 0
-            cumulative_efficiency = (running_sum_available_beds - running_sum_wasted_beds) / running_sum_available_beds if running_sum_available_beds > 0 else 0
+            daily_efficiency = (available_beds - wasted_beds - wasted_potential) / available_beds if available_beds > 0 else 0
+            cumulative_efficiency = (running_sum_available_beds - running_sum_wasted_beds - running_sum_wasted_potential) / running_sum_available_beds if running_sum_available_beds > 0 else 0
 
             records.append({
                 "Date": date.date(),
                 "Available Beds": available_beds,
                 "Wasted Beds": wasted_beds,
+                "Wasted Potential": wasted_potential,
                 "Daily Efficiency": daily_efficiency,
                 "Cumulative Available Beds": running_sum_available_beds,
                 "Cumulative Wasted Beds": running_sum_wasted_beds,
+                "Cumulative Wasted Potential": running_sum_wasted_potential,
                 "Cumulative Efficiency": cumulative_efficiency
             })
 
