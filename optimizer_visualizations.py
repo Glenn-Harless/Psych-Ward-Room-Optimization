@@ -28,10 +28,6 @@ for i, S in enumerate(single_rooms):
                 single_room_patients = row['Total Single Room Patients']
                 double_room_patients = row['Double Room Patients']
 
-                # Calculate number of patients that can be accommodated
-                accommodated_single = min(single_room_patients, S)
-                accommodated_double = min(double_room_patients, 2 * D)
-
                 # Wasted beds in double rooms by single patients
                 wasted_single_in_double = max(0, single_room_patients - S)
 
