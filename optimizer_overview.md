@@ -1,4 +1,3 @@
-
 # Optimizer Description
 
 ## Introduction
@@ -51,22 +50,24 @@ The goal is to minimize the number of wasted beds while meeting the patients’ 
 
 ### 4. Testing Combinations
 
-- The optimizer tests different combinations of single and double rooms. For example, it might test having 6 single rooms and 10 double rooms, then calculate how many beds would be wasted with this setup.
-- For each combination, the optimizer considers:
-  - How many single rooms are needed for patients who must be alone.
-  - How many double rooms are needed for patients who can share.
-  - Whether any single-room patients would end up in double rooms, and if so, how many beds would be wasted.
+The optimizer tests different combinations of single and double rooms. For example, it might test having 6 single rooms and 10 double rooms, then calculate how many beds would be wasted with this setup.
+
+- **Graph:**
+  ![Heatmap showing the total wasted beds for different configurations of single and double rooms.](output/optimizer_heatmap.png)
 
 ### 5. Using Linear Programming to Solve
 
-- The optimizer uses linear programming to systematically go through all possible combinations of single and double rooms.
-- It calculates the total number of wasted beds for each combination, always following the rules (constraints).
-- Linear programming helps ensure that the optimizer finds the absolute best combination that results in the fewest wasted beds.
+The optimizer uses linear programming to systematically go through all possible combinations of single and double rooms. It calculates the total number of wasted beds for each combination, always following the rules (constraints).
+
+- **Graph:**
+  ![Efficiency plot of the optimizer as it evaluates different room configurations.](output/optimizer_efficiency_plot.png)
 
 ### 6. Choosing the Best Option
 
-- After testing all combinations, the optimizer selects the one that results in the fewest wasted beds.
-- In this case, it found that having 10 double rooms and 6 single rooms was the most efficient setup, leading to the least waste.
+After testing all combinations, the optimizer selects the one that results in the fewest wasted beds.
+
+- **Graph:**
+  ![Bar chart comparing the total wasted beds for various room configurations. The selected optimal configuration is highlighted.](output/optimizer_bar_chart.png)
 
 ## Are Constraints Flexible?
 

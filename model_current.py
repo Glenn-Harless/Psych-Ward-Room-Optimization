@@ -20,7 +20,7 @@ class CurrentModelEvaluator:
             date = pd.to_datetime(row['Date'])
 
             available_beds = 26 - row['Closed Rooms']
-            wasted_beds = row['Total Single Room Patients'] + row['Closed Rooms']
+            wasted_beds = row['Total Single Room Patients'] # + row['Closed Rooms']
             wasted_potential = 0  # No wasted potential in current model as all rooms are double
 
             running_sum_available_beds += available_beds

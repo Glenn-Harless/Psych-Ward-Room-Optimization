@@ -47,7 +47,7 @@ plt.figure(figsize=(10, 8))
 sns.heatmap(objective_values, annot=True, fmt=".0f", cmap="YlGnBu", xticklabels=double_rooms, yticklabels=single_rooms)
 
 # Add labels and title
-plt.title("Objective Function Heatmap\n(Total Wasted Beds and Potential)")
+plt.title("Objective Function Heatmap\n(Total Wasted Beds + Wasted Potential)")
 plt.xlabel("Number of Double Rooms (D)")
 plt.ylabel("Number of Single Rooms (S)")
 

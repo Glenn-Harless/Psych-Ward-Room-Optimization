@@ -21,7 +21,7 @@ The project is divided into several key components:
 
 2. **model_optimizer.py**:
     - Evaluates the optimized bed allocation model derived from linear programming.
-    - In this model, the ward has a combination of 10 double rooms and 6 single rooms, minimizing wasted beds by only placing isolated patients in double rooms when all single rooms are occupied.
+    - In this model, the ward has a combination of 8 double rooms and 10 single rooms, minimizing wasted beds by only placing isolated patients in double rooms when all single rooms are occupied.
 
 ### Visualization
 

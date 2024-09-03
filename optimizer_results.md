@@ -85,15 +85,14 @@ The optimizer used a linear programming solver (PULP with CBC) to find the optim
 
 The solution produced by the optimizer was as follows:
 
-- **Optimal number of double rooms:** 10.0
-- **Optimal number of single rooms:** 6.0
-- **Total wasted beds:** 20.0
-- **Total free beds:** 0.0
-- **Efficiency:** 1.00
+- **Optimal number of double rooms:** 8.0
+- **Optimal number of single rooms:** 10.0
+- **Total wasted beds:** 52.0
+- **Total wasted potential:** 22.0
 - **Solver status:** Optimal
-- **Objective function value:** 20.0
+- **Objective function value:** 74.0
 
-This means that the most efficient allocation of beds, given the constraints and patient needs, is to have 10 double rooms and 6 single rooms, which minimizes wasted beds to just 20 across the evaluated period.
+This means that the most efficient allocation of beds, given the constraints and patient needs, is to have 8 double rooms and 10 single rooms, which minimizes wasted beds to just 52 across the evaluated period.
 
 ## Report Aim
 
