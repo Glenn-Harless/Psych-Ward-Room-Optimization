@@ -59,8 +59,3 @@ if __name__ == "__main__":
     evaluator = OptimizedModelEvaluator(data_path)
     df = evaluator.calculate_wasted_beds()
     df.to_csv('output/optimized_model_data.csv', index=False)
-
-    # Old
-    # evaluator = OptimizedModelEvaluator(data_path, single_rooms=6, double_rooms=10)
-    # df = evaluator.calculate_wasted_beds()
-    # df.to_csv('output/optimized_model_data_s10_d8.csv', index=False)
