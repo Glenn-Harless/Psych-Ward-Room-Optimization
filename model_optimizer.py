@@ -1,7 +1,6 @@
 import pandas as pd
-
 class OptimizedModelEvaluator:
-    def __init__(self, data_path, single_rooms=6, double_rooms=10):
+    def __init__(self, data_path, single_rooms=10, double_rooms=8):
         self.data = pd.read_csv(data_path)
         self.single_rooms = single_rooms
         self.double_rooms = double_rooms
@@ -9,7 +8,7 @@ class OptimizedModelEvaluator:
     def calculate_wasted_beds(self):
         records = []
 
-        # Consider only the most recent year(s) of data (2023 and 2024)
+        # Ensure that the Date column is datetime and filter for the relevant years
         self.data["Date"] = pd.to_datetime(self.data["Date"])
         self.data.dropna(subset=['Single Room E'], inplace=True)
         recent_year_data = self.data[self.data['Date'].dt.year.isin([2023, 2024])]
@@ -26,16 +25,10 @@ class OptimizedModelEvaluator:
             double_room_patients = row['Double Room Patients']
 
             # Calculate wasted beds (single room patients in double rooms)
-            if single_room_patients > self.single_rooms:
-                wasted_single_in_double = single_room_patients - self.single_rooms
-            else:
-                wasted_single_in_double = 0
+            wasted_single_in_double = max(0, single_room_patients - self.single_rooms)
 
             # Calculate wasted potential (double room patients in single rooms)
-            if double_room_patients > 2 * self.double_rooms:
-                wasted_double_in_single = double_room_patients - 2 * self.double_rooms
-            else:
-                wasted_double_in_single = 0
+            wasted_double_in_single = max(0, double_room_patients - (self.double_rooms * 2))
 
             wasted_beds = wasted_single_in_double
             wasted_potential = wasted_double_in_single
@@ -67,4 +60,7 @@ if __name__ == "__main__":
     df = evaluator.calculate_wasted_beds()
     df.to_csv('output/optimized_model_data.csv', index=False)
 
-    print(df)
+    # Old
+    # evaluator = OptimizedModelEvaluator(data_path, single_rooms=6, double_rooms=10)
+    # df = evaluator.calculate_wasted_beds()
+    # df.to_csv('output/optimized_model_data_s10_d8.csv', index=False)

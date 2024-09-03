@@ -2,27 +2,26 @@ Welcome to the CBC MILP Solver
 Version: 2.10.3 
 Build Date: Dec 15 2019 
 
-command line - /Users/glennharless/miniconda3/envs/psych_opt/lib/python3.12/site-packages/pulp/solverdir/cbc/osx/64/cbc /var/folders/7m/njx2trb92gs75_vg_zs20px00000gn/T/1dc4103db63e41aab5e9d8a6e0b272f1-pulp.mps -timeMode elapsed -branch -printingOptions all -solution /var/folders/7m/njx2trb92gs75_vg_zs20px00000gn/T/1dc4103db63e41aab5e9d8a6e0b272f1-pulp.sol (default strategy 1)
+command line - /Users/glennharless/miniconda3/envs/psych_opt/lib/python3.12/site-packages/pulp/solverdir/cbc/osx/64/cbc /var/folders/7m/njx2trb92gs75_vg_zs20px00000gn/T/cbd93e3c29e14aaab034092e12dfc06f-pulp.mps -timeMode elapsed -branch -printingOptions all -solution /var/folders/7m/njx2trb92gs75_vg_zs20px00000gn/T/cbd93e3c29e14aaab034092e12dfc06f-pulp.sol (default strategy 1)
 At line 2 NAME          MODEL
 At line 3 ROWS
 At line 2844 COLUMNS
-At line 12317 RHS
-At line 15157 BOUNDS
-At line 16581 ENDATA
-Problem MODEL has 2839 rows, 1423 columns and 6624 elements
+At line 232735 RHS
+At line 235575 BOUNDS
+At line 236526 ENDATA
+Problem MODEL has 2839 rows, 950 columns and 227988 elements
 Coin0008I MODEL read with 0 errors
 Option for timeMode changed from cpu to elapsed
-Continuous objective value is 19 - 0.01 seconds
-Cgl0003I 0 fixed, 12 tightened bounds, 0 strengthened rows, 0 substitutions
-Cgl0003I 0 fixed, 6 tightened bounds, 0 strengthened rows, 0 substitutions
-Cgl0004I processed model has 358 rows, 240 columns (240 integer (0 of which binary)) and 954 elements
+Continuous objective value is 74 - 0.02 seconds
+Cgl0003I 0 fixed, 2 tightened bounds, 9 strengthened rows, 0 substitutions
+Cgl0004I processed model has 1872 rows, 940 columns (940 integer (9 of which binary)) and 222795 elements
 Cutoff increment increased from 1e-05 to 0.9999
-Cbc0045I 1 integer variables out of 240 objects (240 integer) have cost of 1 - high priority
+Cbc0045I 2 integer variables out of 940 objects (940 integer) have cost of 1 - high priority
 Cbc0045I branch on satisfied Y create fake objective Y random cost Y
-Cbc0012I Integer solution of 20 found by DiveCoefficient after 0 iterations and 0 nodes (0.02 seconds)
-Cbc0001I Search completed - best objective 20, took 0 iterations and 0 nodes (0.02 seconds)
+Cbc0012I Integer solution of 74 found by DiveCoefficient after 0 iterations and 0 nodes (0.19 seconds)
+Cbc0001I Search completed - best objective 74, took 0 iterations and 0 nodes (0.19 seconds)
 Cbc0035I Maximum depth 0, 0 variables fixed on reduced cost
-Cuts at root node changed objective from 20 to 20
+Cuts at root node changed objective from 74 to 74
 Probing was tried 0 times and created 0 cuts of which 0 were active after adding rounds of cuts (0.000 seconds)
 Gomory was tried 0 times and created 0 cuts of which 0 were active after adding rounds of cuts (0.000 seconds)
 Knapsack was tried 0 times and created 0 cuts of which 0 were active after adding rounds of cuts (0.000 seconds)
@@ -34,12 +33,12 @@ ZeroHalf was tried 0 times and created 0 cuts of which 0 were active after addin
 
 Result - Optimal solution found
 
-Objective value:                20.00000000
+Objective value:                74.00000000
 Enumerated nodes:               0
 Total iterations:               0
-Time (CPU seconds):             0.02
-Time (Wallclock seconds):       0.02
+Time (CPU seconds):             0.18
+Time (Wallclock seconds):       0.21
 
 Option for printingOptions changed from normal to all
-Total time (CPU seconds):       0.03   (Wallclock seconds):       0.03
+Total time (CPU seconds):       0.23   (Wallclock seconds):       0.27
 
