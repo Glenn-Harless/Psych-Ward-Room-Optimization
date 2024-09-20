@@ -9,7 +9,6 @@ class Visualizer:
     def __init__(self, current_data, optimized_data):
         self.current_data = current_data
         self.optimized_data = optimized_data
-
     def plot_wasted_beds_comparison(self, plot_path):
         plt.figure(figsize=(14, 14))
         plt.plot(self.current_data['Date'], self.current_data['Wasted Beds'], label='Current Model Wasted Beds', marker='o', linestyle='-', linewidth=1, markersize=4, color=sns.color_palette("colorblind")[0])
@@ -17,7 +16,7 @@ class Visualizer:
         plt.xlabel('Date')
         plt.ylabel('Wasted Beds')
         plt.title('Comparison of Wasted Beds: Current Model vs Optimized Model')
-        plt.legend(loc='upper right', bbox_to_anchor=(1.15, 1))
+        plt.legend(loc='upper left')  # Legend moved to the top left
         plt.grid(True)
         
         # Improve date label readability
@@ -34,7 +33,7 @@ class Visualizer:
         plt.xlabel('Date')
         plt.ylabel('Wasted Potential')
         plt.title('Comparison of Wasted Potential: Current Model vs Optimized Model')
-        plt.legend(loc='upper right', bbox_to_anchor=(1.15, 1))
+        plt.legend(loc='upper left')  # Legend moved to the top left
         plt.grid(True)
 
         # Improve date label readability
@@ -51,7 +50,7 @@ class Visualizer:
         plt.xlabel('Date')
         plt.ylabel('Daily Efficiency')
         plt.title('Comparison of Daily Efficiency: Current Model vs Optimized Model')
-        plt.legend(loc='upper right', bbox_to_anchor=(1.15, 1))
+        plt.legend(loc='upper left')  # Legend moved to the top left
         plt.grid(True)
 
         # Improve date label readability
@@ -68,7 +67,7 @@ class Visualizer:
         plt.xlabel('Date')
         plt.ylabel('Cumulative Efficiency')
         plt.title('Comparison of Cumulative Efficiency: Current Model vs Optimized Model')
-        plt.legend(loc='upper right', bbox_to_anchor=(1.15, 1))
+        plt.legend(loc='upper left')  # Legend moved to the top left
         plt.grid(True)
 
         # Improve date label readability
