@@ -70,7 +70,7 @@ total_singles_in_double_space = [total_singles_in_double_values[i, j] for i, S i
 total_doubles_in_single_space = [total_doubles_in_single_values[i, j] for i, S in enumerate(single_rooms) for j, D in enumerate(double_rooms) if 2 * D + S == 26]
 
 # Create a bar chart for wasted beds
-plt.figure(figsize=(12, 6))
+plt.figure(figsize=(12, 10))
 plt.bar([f"S: {S}, D: {D}" for S, D in configurations], wasted_beds_space, color='skyblue')
 plt.xticks(rotation=45, ha='right')
 plt.xlabel("Room Configurations (Single Rooms, Double Rooms)")
@@ -83,7 +83,7 @@ total_available_beds = len(recent_year_data) * 26
 efficiency = [(total_available_beds - wb) / total_available_beds for wb in wasted_beds_space]
 
 # Create a line plot for efficiency
-plt.figure(figsize=(12, 6))
+plt.figure(figsize=(12, 10))
 plt.plot([f"S: {S}, D: {D}" for S, D in configurations], efficiency, marker='o', color='orange')
 plt.xticks(rotation=45, ha='right')
 plt.xlabel("Room Configurations (Single Rooms, Double Rooms)")
@@ -92,7 +92,7 @@ plt.title("Efficiency vs. Room Configurations")
 plt.savefig('output/optimizer_efficiency_plot.png')
 
 # Create line plots for total singles in double and total doubles in single as a function of room configurations
-plt.figure(figsize=(12, 6))
+plt.figure(figsize=(12, 10))
 plt.plot([f"S: {S}, D: {D}" for S, D in configurations], total_singles_in_double_space, marker='o', label='Singles in Double', color='blue')
 plt.plot([f"S: {S}, D: {D}" for S, D in configurations], total_doubles_in_single_space, marker='o', label='Doubles in Single', color='red')
 plt.xticks(rotation=45, ha='right')
