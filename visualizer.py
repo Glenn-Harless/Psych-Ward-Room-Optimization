@@ -11,7 +11,7 @@ class Visualizer:
         self.optimized_data = optimized_data
 
     def plot_wasted_beds_comparison(self, plot_path):
-        plt.figure(figsize=(12, 11))
+        plt.figure(figsize=(14, 14))
         plt.plot(self.current_data['Date'], self.current_data['Wasted Beds'], label='Current Model Wasted Beds', marker='o', linestyle='-', linewidth=1, markersize=4, color=sns.color_palette("colorblind")[0])
         plt.plot(self.optimized_data['Date'], self.optimized_data['Wasted Beds'], label='Optimized Model Wasted Beds', marker='x', linestyle='--', linewidth=1, markersize=4, color=sns.color_palette("colorblind")[2])
         plt.xlabel('Date')
@@ -28,7 +28,7 @@ class Visualizer:
         plt.show()
 
     def plot_wasted_potential_comparison(self, plot_path):
-        plt.figure(figsize=(12, 11))
+        plt.figure(figsize=(14, 14))
         plt.plot(self.current_data['Date'], self.current_data['Wasted Potential'], label='Current Model Wasted Potential', marker='o', linestyle='-', linewidth=1, markersize=4, color=sns.color_palette("colorblind")[1])
         plt.plot(self.optimized_data['Date'], self.optimized_data['Wasted Potential'], label='Optimized Model Wasted Potential', marker='x', linestyle='--', linewidth=1, markersize=4, color=sns.color_palette("colorblind")[3])
         plt.xlabel('Date')
@@ -45,7 +45,7 @@ class Visualizer:
         plt.show()
 
     def plot_daily_efficiency_comparison(self, plot_path):
-        plt.figure(figsize=(12, 11))
+        plt.figure(figsize=(14, 14))
         plt.plot(self.current_data['Date'], self.current_data['Daily Efficiency'], label='Current Model Daily Efficiency', marker='o', linestyle='-', linewidth=1, markersize=4, color=sns.color_palette("colorblind")[0])
         plt.plot(self.optimized_data['Date'], self.optimized_data['Daily Efficiency'], label='Optimized Model Daily Efficiency', marker='x', linestyle='--', linewidth=1, markersize=4, color=sns.color_palette("colorblind")[2])
         plt.xlabel('Date')
@@ -62,7 +62,7 @@ class Visualizer:
         plt.show()
 
     def plot_cumulative_efficiency_comparison(self, plot_path):
-        plt.figure(figsize=(12, 11))
+        plt.figure(figsize=(14, 14))
         plt.plot(self.current_data['Date'], self.current_data['Cumulative Efficiency'], label='Current Model Cumulative Efficiency', marker='o', linestyle='-', linewidth=1, markersize=4, color=sns.color_palette("colorblind")[0])
         plt.plot(self.optimized_data['Date'], self.optimized_data['Cumulative Efficiency'], label='Optimized Model Cumulative Efficiency', marker='x', linestyle='--', linewidth=1, markersize=4, color=sns.color_palette("colorblind")[2])
         plt.xlabel('Date')
