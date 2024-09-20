@@ -58,7 +58,7 @@ for i, S in enumerate(single_rooms):
 # Create a heatmap for the total wasted beds
 plt.figure(figsize=(10, 8))
 sns.heatmap(objective_values, annot=True, fmt=".0f", cmap="YlGnBu", xticklabels=double_rooms, yticklabels=single_rooms)
-plt.title("Objective Function Heatmap\n(Total Wasted Beds + Wasted Potential)")
+plt.title("Objective Function Heatmap\n(Minimize Total Incorrectly Assigned Patients)")
 plt.xlabel("Number of Double Rooms (D)")
 plt.ylabel("Number of Single Rooms (S)")
 plt.savefig('output/optimizer_heatmap.png')
@@ -97,7 +97,7 @@ plt.plot([f"S: {S}, D: {D}" for S, D in configurations], total_singles_in_double
 plt.plot([f"S: {S}, D: {D}" for S, D in configurations], total_doubles_in_single_space, marker='o', label='Doubles in Single', color='red')
 plt.xticks(rotation=45, ha='right')
 plt.xlabel("Room Configurations (Single Rooms, Double Rooms)")
-plt.ylabel("Total Wasted Patients")
+plt.ylabel("Total Incorrectly Assigned Patients")
 plt.title("Wasted Singles in Double Rooms and Doubles in Single Rooms\nvs. Room Configurations")
 plt.legend()
 plt.savefig('output/wasted_patients_plot.png')
