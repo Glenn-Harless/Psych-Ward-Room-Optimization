@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 sns.set()
 
 # Load the historical data
-data_path = 'data/final_census_data.csv'
+data_path = 'data/final_census_data_test_set.csv'
 data = pd.read_csv(data_path)
 
 # Consider only the most recent years (2023 and 2024)
@@ -61,7 +61,7 @@ sns.heatmap(objective_values, annot=True, fmt=".0f", cmap="YlGnBu", xticklabels=
 plt.title("Objective Function Heatmap\n(Minimize Total Incorrectly Assigned Patients)")
 plt.xlabel("Number of Double Rooms (D)")
 plt.ylabel("Number of Single Rooms (S)")
-plt.savefig('output/optimizer_heatmap.png')
+plt.savefig('output/optimizer_heatmap_test_set.png')
 
 # Extract configurations for single/double rooms and wasted beds
 configurations = [(S, D) for S in single_rooms for D in double_rooms if 2 * D + S == 26]
@@ -76,7 +76,7 @@ plt.xticks(rotation=45, ha='right')
 plt.xlabel("Room Configurations (Single Rooms, Double Rooms)")
 plt.ylabel("Inefficiency (Wasted Beds + Wasted Potential)")
 plt.title("Inefficiency vs. Room Configurations")
-plt.savefig('output/optimizer_bar_chart.png')
+plt.savefig('output/optimizer_bar_chart_test_set.png')
 
 # Calculate efficiency for each configuration
 total_available_beds = len(recent_year_data) * 26
@@ -89,7 +89,7 @@ plt.xticks(rotation=45, ha='right')
 plt.xlabel("Room Configurations (Single Rooms, Double Rooms)")
 plt.ylabel("Efficiency")
 plt.title("Efficiency vs. Room Configurations")
-plt.savefig('output/optimizer_efficiency_plot.png')
+plt.savefig('output/optimizer_efficiency_plot_test_set.png')
 
 # Create line plots for total singles in double and total doubles in single as a function of room configurations
 plt.figure(figsize=(12, 10))
@@ -100,5 +100,5 @@ plt.xlabel("Room Configurations (Single Rooms, Double Rooms)")
 plt.ylabel("Total Incorrectly Assigned Patients")
 plt.title("Wasted Singles in Double Rooms and Doubles in Single Rooms\nvs. Room Configurations")
 plt.legend()
-plt.savefig('output/wasted_patients_plot.png')
+plt.savefig('output/wasted_patients_plot_test_set.png')
 
