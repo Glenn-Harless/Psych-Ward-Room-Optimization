@@ -6,7 +6,7 @@ This evaluation assessed the performance of our optimized room configuration (10
 
 ### Key Results
 - **Configuration:** 10 Single Rooms, 8 Double Rooms
-- **Total Capacity:** 26 beds
+- **Total Daily Capacity:** 26 beds
 - **Efficiency:** 99.99%
 - **Wasted Resources:**
   - Wasted Beds: 2 (single patients in double rooms)
