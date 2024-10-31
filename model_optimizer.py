@@ -10,6 +10,7 @@ class OptimizedModelEvaluator:
 
         # Ensure that the Date column is datetime and filter for the relevant years
         self.data["Date"] = pd.to_datetime(self.data["Date"])
+        self.data.sort_values(by='Date', inplace=True)
         self.data.dropna(subset=['Single Room E'], inplace=True)
         recent_year_data = self.data[self.data['Date'].dt.year.isin([2023, 2024])]
 
@@ -55,7 +56,7 @@ class OptimizedModelEvaluator:
 
 # Usage
 if __name__ == "__main__":
-    data_path = 'data/final_census_data.csv'
+    data_path = 'data/final_census_data_test_set.csv'
     evaluator = OptimizedModelEvaluator(data_path)
     df = evaluator.calculate_wasted_beds()
-    df.to_csv('output/optimized_model_data.csv', index=False)
+    df.to_csv('output/optimized_model_data_test_set.csv', index=False)
