@@ -2,7 +2,7 @@
 ## Test Period: May-August 2024
 
 ### Overview
-This evaluation assessed the performance of our optimized room configuration (10 Single, 8 Double Rooms) against unseen test data. The configuration demonstrated exceptional efficiency with minimal resource wastage.
+This evaluation assessed the performance of our optimized room configuration (10 Single, 8 Double Rooms) against unseen test data. The configuration demonstrated exceptional efficiency with minimal resource wastage. In the entire 4-month test period, inefficiencies only occurred on May 12-13 when we had 11 single room patients but only 10 single rooms available, resulting in one single patient requiring a double room.
 
 ### Key Results
 - **Configuration:** 10 Single Rooms, 8 Double Rooms
