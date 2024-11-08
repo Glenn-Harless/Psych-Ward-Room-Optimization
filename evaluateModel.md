@@ -34,7 +34,6 @@ This graph shows the breakdown of assignment mismatches:
 The selected configuration sits at the intersection point where both types of misassignments are minimized.
 
 ### Test Data Insights
-- Patient census ranged from 7-16 patients per day
 - Single room patients: 4-11 per day
 - Double room patients: 1-9 per day
 - The two wasted beds occurred during a brief period in May
