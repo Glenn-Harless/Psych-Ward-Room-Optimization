@@ -24,7 +24,7 @@ def calculate_max_capacity_events(raw_data_path, current_model_path, optimized_m
     # Merge datasets
     analysis_df = pd.merge(raw_data, current_model, on='Date', suffixes=('', '_current'))
     analysis_df = pd.merge(analysis_df, optimized_model, on='Date', suffixes=('', '_optimized'))
-    
+        
     def analyze_configuration(df, is_current_model=True):
         max_capacity_days = []
         turned_away_events = []
@@ -35,11 +35,13 @@ def calculate_max_capacity_events(raw_data_path, current_model_path, optimized_m
             total_rooms = 13
             double_rooms = 13
             single_rooms = 0
+            max_beds = 26
         else:
             # Optimized model: 8 double rooms (16 beds) + 10 single rooms (10 beds)
             total_rooms = 18  # 8 + 10
             double_rooms = 8
             single_rooms = 10
+            max_beds = 26
             
         for index, row in df.iterrows():
             single_room_patients = row['Total Single Room Patients']
@@ -52,44 +54,55 @@ def calculate_max_capacity_events(raw_data_path, current_model_path, optimized_m
                 # 1. Single room patients each need their own double room
                 rooms_for_single_patients = single_room_patients
                 
-                # 2. Double room patients can pair up (ceiling division for odd numbers)
-                rooms_for_double_patients = -(-double_room_patients // 2)  # ceiling division
+                # 2. Calculate how many double rooms are used by double room patients
+                # Use integer division to pair patients
+                paired_double_patients = (double_room_patients // 2) * 2
+                remaining_single_double_patients = double_room_patients % 2
                 
-                # Total occupied double rooms
-                occupied_double_rooms = rooms_for_single_patients + rooms_for_double_patients
+                rooms_for_double_patients = paired_double_patients // 2
+                
+                # Calculate remaining capacity
+                rooms_used = rooms_for_single_patients + rooms_for_double_patients
+                rooms_available = total_rooms - rooms_used
                 
                 # Max capacity is reached if:
-                # - All rooms are occupied
-                # - Or total patients hits the bed limit
-                is_max_capacity = (occupied_double_rooms >= double_rooms or 
-                                 total_patients >= 26)
+                # 1. All rooms are fully occupied (no space for even a single patient)
+                # 2. Or we're at max total patients
+                # 3. Or we have one unpaired patient and no more rooms
+                is_max_capacity = (
+                    (rooms_available == 0 and remaining_single_double_patients == 0) or
+                    total_patients >= max_beds or
+                    (rooms_available == 0 and remaining_single_double_patients > 0)
+                )
                 
                 # Turn away occurs if we need more rooms than available
-                would_turn_away = occupied_double_rooms > double_rooms
+                would_turn_away = rooms_used > total_rooms
                                 
             else:
-                # Optimized model: 8 double rooms (16 beds) + 10 single rooms (10 beds)
-                # First put isolation patients in single rooms
-                single_rooms_used = min(single_room_patients, single_rooms)  # how many single rooms are used
-                remaining_single_patients = max(0, single_room_patients - single_rooms)  # isolation patients that need double rooms
+                # Optimized model logic remains the same
+                single_rooms_used = min(single_room_patients, single_rooms)
+                remaining_single_patients = max(0, single_room_patients - single_rooms)
                 
-                # These isolation patients each need their own double room
                 double_rooms_for_isolation = remaining_single_patients
-                
-                # Calculate remaining double rooms for double room patients
                 available_double_rooms = double_rooms - double_rooms_for_isolation
-                beds_in_double_rooms = available_double_rooms * 2
-                                
-                # Calculate total available beds for double room patients:
-                # - Unused single rooms (single_rooms - single_rooms_used)
-                # - Available beds in double rooms (available_double_rooms * 2)
-                available_beds_for_doubles = (single_rooms - single_rooms_used) + (available_double_rooms * 2)
-
-                # Would turn away if we don't have enough beds for double room patients
-                would_turn_away = double_room_patients > available_beds_for_doubles
                 
-                # Max capacity is hit if total patients equals or exceeds 26
-                is_max_capacity = total_patients >= 26
+                paired_double_patients = (double_room_patients // 2) * 2
+                remaining_single_double_patients = double_room_patients % 2
+                
+                rooms_used = (
+                    single_rooms_used +
+                    double_rooms_for_isolation +
+                    (paired_double_patients // 2)
+                )
+                
+                rooms_available = total_rooms - rooms_used
+                
+                is_max_capacity = (
+                    total_patients >= max_beds or
+                    (rooms_available == 0 and remaining_single_double_patients > 0)
+                )
+                
+                would_turn_away = rooms_used > total_rooms
 
             # Store detailed information for capacity events
             if is_max_capacity or would_turn_away:
@@ -99,7 +112,6 @@ def calculate_max_capacity_events(raw_data_path, current_model_path, optimized_m
                     'Single_Room_Patients': single_room_patients,
                     'Double_Room_Patients': double_room_patients,
                     'Is_Max_Capacity': is_max_capacity,
-                    # 'Would_Turn_Away': would_turn_away
                 })
             
             if is_max_capacity:
@@ -239,7 +251,7 @@ def create_visualizations(results):
 if __name__ == "__main__":
     # Adjust these paths as needed
     results = calculate_max_capacity_events(
-        'data/final_census_data.csv',
+        'data/final_census_data_test_set_may_to_oct2024.csv',
         'output/current_model_data.csv',
         'output/optimized_model_data.csv'
     )

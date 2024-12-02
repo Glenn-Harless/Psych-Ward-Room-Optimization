@@ -56,7 +56,7 @@ class OptimizedModelEvaluator:
 
 # Usage
 if __name__ == "__main__":
-    data_path = 'data/final_census_data_test_set.csv'
+    data_path = 'data/final_census_data_test_set_may_to_oct2024.csv'
     evaluator = OptimizedModelEvaluator(data_path)
     df = evaluator.calculate_wasted_beds()
-    df.to_csv('output/optimized_model_data_test_set.csv', index=False)
+    df.to_csv('output/optimized_model_data_test_set_may_to_oct2024.csv', index=False)

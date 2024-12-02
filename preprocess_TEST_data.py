@@ -59,7 +59,7 @@ def process_workbooks(file_paths):
     final_df = pd.concat(all_data_frames, ignore_index=True)
 
     # Save the final dataframe to a CSV file
-    output_csv_path = 'data/final_census_data_test_set.csv'
+    output_csv_path = 'data/final_census_data_test_set_may_to_oct2024.csv'
     final_df.to_csv(output_csv_path, index=False)
     print(f"Data has been successfully written to {output_csv_path}")
 
@@ -69,6 +69,8 @@ file_paths = [
     'data/Monthly Census 2024(Jul).csv',
     'data/Monthly Census 2024(Jun).csv',
     'data/Monthly Census 2024(May).csv',
+    'data/Monthly Census 2024(Oct).csv',
+    'data/Monthly Census 2024(Sept).csv',
 ]
 
 # Process the workbooks and generate the CSV
