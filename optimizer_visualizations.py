@@ -5,9 +5,15 @@ import matplotlib.pyplot as plt
 
 sns.set()
 
+# Currently all data charts are for full data set: train, test, test2(may - oct 2024)
+# To change to other data set, change the data_paths
 # Load the historical data
-data_path = 'data/final_census_data_test_set.csv'
-data = pd.read_csv(data_path)
+data_paths = ['data/final_census_data_test_set.csv', 'data/final_census_data.csv', 'data/final_census_data_test_set_may_to_oct2024.csv']
+
+data = pd.DataFrame()
+
+for data_path in data_paths:
+    data = pd.concat([data, pd.read_csv(data_path)], ignore_index=True)
 
 # Consider only the most recent years (2023 and 2024)
 data["Date"] = pd.to_datetime(data["Date"])
@@ -101,4 +107,21 @@ plt.ylabel("Total Incorrectly Assigned Patients")
 plt.title("Wasted Singles in Double Rooms and Doubles in Single Rooms\nvs. Room Configurations")
 plt.legend()
 plt.savefig('output/wasted_patients_plot_test_set.png')
+
+
+# Evan wants a CSV of the wasted beds and wasted potential for each room configuration
+# Create a DataFrame to store the data
+print(total_singles_in_double_space)
+print(wasted_beds_space)
+data = {
+    "Room Configurations": [f"S: {S}, D: {D}" for S, D in configurations],
+    "Wasted Beds": total_singles_in_double_space,
+    "Wasted Potential": total_doubles_in_single_space
+}
+
+print(data)
+df = pd.DataFrame(data)
+
+# Save the DataFrame to a CSV file
+df.to_csv("output/wasted_beds_and_wasted_potential_test_set.csv", index=False)
 
