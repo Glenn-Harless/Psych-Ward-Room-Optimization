@@ -8,7 +8,12 @@ sns.set()
 # Currently all data charts are for full data set: train, test, test2(may - oct 2024)
 # To change to other data set, change the data_paths
 # Load the historical data
-data_paths = ['data/final_census_data_test_set.csv', 'data/final_census_data.csv', 'data/final_census_data_test_set_may_to_oct2024.csv']
+data_paths = [
+    'data/final_census_data.csv',
+    # 'data/final_census_data_test_set.csv', 
+    # 'data/final_census_data.csv', 
+    # 'data/final_census_data_test_set_may_to_oct2024.csv'
+]
 
 data = pd.DataFrame()
 
@@ -63,11 +68,13 @@ for i, S in enumerate(single_rooms):
 
 # Create a heatmap for the total wasted beds
 plt.figure(figsize=(10, 8))
-sns.heatmap(objective_values, annot=True, fmt=".0f", cmap="YlGnBu", xticklabels=double_rooms, yticklabels=single_rooms)
+# Create labels that only show even numbers
+y_labels = [str(i) if i % 2 == 0 else '' for i in single_rooms]
+sns.heatmap(objective_values, annot=True, fmt=".0f", cmap="YlGnBu", xticklabels=double_rooms, yticklabels=y_labels)
 plt.title("Objective Function Heatmap\n(Minimize Total Incorrectly Assigned Patients)")
 plt.xlabel("Number of Double Rooms (D)")
 plt.ylabel("Number of Single Rooms (S)")
-plt.savefig('output/optimizer_heatmap_test_set.png')
+plt.savefig('output/optimizer_heatmap_set_training_set.png')
 
 # Extract configurations for single/double rooms and wasted beds
 configurations = [(S, D) for S in single_rooms for D in double_rooms if 2 * D + S == 26]
@@ -82,7 +89,7 @@ plt.xticks(rotation=45, ha='right')
 plt.xlabel("Room Configurations (Single Rooms, Double Rooms)")
 plt.ylabel("Inefficiency (Wasted Beds + Wasted Potential)")
 plt.title("Inefficiency vs. Room Configurations")
-plt.savefig('output/optimizer_bar_chart_test_set.png')
+plt.savefig('output/optimizer_bar_chart_set_training_set.png')
 
 # Calculate efficiency for each configuration
 total_available_beds = len(recent_year_data) * 26
@@ -95,7 +102,7 @@ plt.xticks(rotation=45, ha='right')
 plt.xlabel("Room Configurations (Single Rooms, Double Rooms)")
 plt.ylabel("Efficiency")
 plt.title("Efficiency vs. Room Configurations")
-plt.savefig('output/optimizer_efficiency_plot_test_set.png')
+plt.savefig('output/optimizer_efficiency_plot_set_training_set.png')
 
 # Create line plots for total singles in double and total doubles in single as a function of room configurations
 plt.figure(figsize=(12, 10))
@@ -106,7 +113,7 @@ plt.xlabel("Room Configurations (Single Rooms, Double Rooms)")
 plt.ylabel("Total Incorrectly Assigned Patients")
 plt.title("Wasted Singles in Double Rooms and Doubles in Single Rooms\nvs. Room Configurations")
 plt.legend()
-plt.savefig('output/wasted_patients_plot_test_set.png')
+plt.savefig('output/wasted_patients_plot_set_training_set.png')
 
 
 # Evan wants a CSV of the wasted beds and wasted potential for each room configuration
@@ -123,5 +130,4 @@ print(data)
 df = pd.DataFrame(data)
 
 # Save the DataFrame to a CSV file
-df.to_csv("output/wasted_beds_and_wasted_potential_test_set.csv", index=False)
-
+df.to_csv("output/wasted_beds_and_wasted_potential_set_training_set.csv", index=False)
