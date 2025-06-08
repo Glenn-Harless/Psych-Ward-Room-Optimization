@@ -1,8 +1,32 @@
 version: '3.8'
 
 services:
+  # Default service - runs the new full analysis
   ward-optimization:
     build: .
     volumes:
+      - ./data:/app/data
+      - ./outputs:/app/outputs
+      - ./output:/app/output  # For backwards compatibility
+    environment:
+      - PYTHONUNBUFFERED=1
+    command: python scripts/run_full_analysis.py
+
+  # Legacy service - runs like the old main.py
+  ward-optimization-legacy:
+    build: .
+    volumes:
+      - ./data:/app/data
+      - ./output:/app/output
+    environment:
+      - PYTHONUNBUFFERED=1
+    command: python scripts/run_legacy_workflow.py
+
+  # Original main.py for full backwards compatibility
+  ward-optimization-original:
+    build: .
+    volumes:
       - .:/app
+    environment:
+      - PYTHONUNBUFFERED=1
     command: python main.py

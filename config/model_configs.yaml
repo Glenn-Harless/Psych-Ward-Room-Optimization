@@ -1,0 +1,74 @@
+# Model Configurations
+# Settings for different room configuration models
+
+models:
+  current:
+    name: "Current Model (All Double Rooms)"
+    single_rooms: 0
+    double_rooms: 13
+    description: "Current configuration with all rooms as double occupancy"
+    
+  optimized:
+    name: "Optimized Model"
+    single_rooms: 10
+    double_rooms: 8
+    description: "Optimized configuration based on linear programming analysis"
+    
+  custom:
+    name: "Custom Configuration"
+    single_rooms: null  # To be specified at runtime
+    double_rooms: null  # To be specified at runtime
+    description: "User-defined room configuration"
+
+paths:
+  input:
+    training_data: "data/final_census_data.csv"
+    test_data: "data/final_census_data_test_set.csv"
+    test_data_extended: "data/final_census_data_test_set_may_to_oct2024.csv"
+    
+  output:
+    base_directory: "output"
+    data_subdirectory: "data"
+    charts_subdirectory: "charts"
+    
+    # Model output files
+    current_model_data: "current_model_data.csv"
+    optimized_model_data: "optimized_model_data.csv"
+    current_model_max_capacity: "current_model_max_capacity.csv"
+    new_model_capacity: "new_model_capacity.csv"
+    max_capacity_summary: "max_capacity_summary.csv"
+    
+    # Chart files
+    wasted_beds_comparison: "wasted_beds_comparison.png"
+    wasted_potential_comparison: "wasted_potential_comparison.png"
+    cumulative_efficiency_comparison: "cumulative_efficiency_comparison.png"
+    daily_efficiency_comparison: "daily_efficiency_comparison.png"
+    available_beds_comparison: "available_beds_comparison.png"
+    capacity_events_comparison: "capacity_events_comparison.png"
+    capacity_distribution: "capacity_distribution.png"
+    capacity_percentages: "capacity_percentages.png"
+    metrics_heatmap: "metrics_heatmap.png"
+    optimizer_heatmap: "optimizer_heatmap.png"
+    optimizer_bar_chart: "optimizer_bar_chart.png"
+    optimizer_efficiency_plot: "optimizer_efficiency_plot.png"
+    wasted_patients_plot: "wasted_patients_plot.png"
+    ward_optimization_chart: "ward_optimization_chart.png"
+    
+    # Analysis files
+    wasted_beds_and_wasted_potential: "wasted_beds_and_wasted_potential.csv"
+    
+  logs:
+    optimizer_debug: "optimizer_debug.log"
+    solver_log: "solver_log.txt"
+    
+# Data processing settings
+data_processing:
+  encoding: "utf-8"
+  csv_index: false  # Don't write index to CSV files
+  date_format: "%Y-%m-%d"
+  
+# Logging settings
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  date_format: "%Y-%m-%d %H:%M:%S"

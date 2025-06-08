@@ -1,0 +1,30 @@
+# Optimization Parameters Configuration
+# Psych Ward Room Optimization System
+
+ward:
+  total_beds: 26
+  max_double_rooms: 13
+  max_single_rooms: 26
+  default_single_rooms: 10
+  default_double_rooms: 8
+  double_room_capacity: 2  # Number of patients per double room
+
+optimization:
+  years_to_process: [2023, 2024]
+  solver: "PULP_CBC_CMD"
+  solver_msg: true
+  log_path: "solver_log.txt"
+
+data_columns:
+  date: "Date"
+  single_room_e: "Single Room E"  # Column used for filtering valid data
+  total_single_patients: "Total Single Room Patients"
+  double_room_patients: "Double Room Patients"
+  closed_rooms: "Closed Rooms"
+
+efficiency:
+  display_precision: 2  # Decimal places for efficiency percentage
+  
+constraints:
+  min_double_rooms: 0
+  min_single_rooms: 0

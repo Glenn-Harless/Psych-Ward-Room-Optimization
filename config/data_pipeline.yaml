@@ -1,0 +1,168 @@
+# Data Pipeline Configuration
+# Settings for data preprocessing and validation
+
+pipeline:
+  name: "Census Data Processing Pipeline"
+  version: "1.0.0"
+  
+input:
+  file_patterns:
+    - "Monthly Census *.xlsx"
+    - "Monthly Census *.xls"
+  
+  expected_structure:
+    skiprows: 4  # Number of header rows to skip
+    month_sheet_length: 3  # Valid month sheets have 3-letter names
+    
+  column_mappings:
+    "Unnamed: 1": "Day"
+    "Census": "Total Census Rooms"
+    "Held Beds": "Single Room E"
+    "Held Due To Covid Swab/Quarantine": "Single Room F"
+    "Closed Beds": "Closed Rooms"
+    
+  required_columns:
+    - "Day"
+    - "Total Census Rooms"
+    - "Single Room E"
+    - "Single Room F"
+    - "Closed Rooms"
+
+processing:
+  # Years to include in processing
+  include_years: [2022, 2023, 2024]
+  
+  # Columns to calculate
+  calculated_columns:
+    "Total Single Room Patients":
+      formula: "Single Room E + Single Room F"
+      cap_at: "Total Census Rooms"
+    
+    "Double Room Patients":
+      formula: "Total Census Rooms - Total Single Room Patients"
+      min_value: 0
+    
+    "Total Patients for Day":
+      formula: "Total Single Room Patients + Double Room Patients"
+  
+  # Date generation
+  date_format: "%d-%b-%Y"
+  
+  # Output columns (in order)
+  output_columns:
+    - "Date"
+    - "Day"
+    - "Single Room E"
+    - "Single Room F"
+    - "Total Single Room Patients"
+    - "Double Room Patients"
+    - "Total Patients for Day"
+    - "Closed Rooms"
+    - "Total Census Rooms"
+
+validation:
+  # Data type validations
+  numeric_columns:
+    - "Day"
+    - "Single Room E"
+    - "Single Room F"
+    - "Total Single Room Patients"
+    - "Double Room Patients"
+    - "Total Patients for Day"
+    - "Closed Rooms"
+    - "Total Census Rooms"
+  
+  datetime_columns:
+    - "Date"
+  
+  # Value range validations
+  value_constraints:
+    "Day":
+      min: 1
+      max: 31
+    
+    "Single Room E":
+      min: 0
+      max: 26
+    
+    "Single Room F":
+      min: 0
+      max: 26
+    
+    "Total Single Room Patients":
+      min: 0
+      max: 26
+    
+    "Double Room Patients":
+      min: 0
+      max: 26
+    
+    "Total Patients for Day":
+      min: 0
+      max: 26
+    
+    "Closed Rooms":
+      min: 0
+      max: 13
+    
+    "Total Census Rooms":
+      min: 0
+      max: 26
+  
+  # Logical validations
+  logical_rules:
+    - name: "Single room total check"
+      rule: "Total Single Room Patients == Single Room E + Single Room F"
+      
+    - name: "Total patients check"
+      rule: "Total Patients for Day == Total Single Room Patients + Double Room Patients"
+      
+    - name: "Capacity check"
+      rule: "Total Patients for Day <= 26 - (Closed Rooms * 2)"
+  
+  # Warning thresholds
+  warnings:
+    date_gap_days: 2  # Warn if gap between dates > 2 days
+    zero_patient_threshold: 5  # Warn if more than 5 days with 0 patients
+
+output:
+  # File naming convention
+  training_data_name: "final_census_data.csv"
+  test_data_name: "final_census_data_test_set.csv"
+  
+  # Directory structure
+  raw_data_dir: "data/raw"
+  processed_data_dir: "data/processed"
+  training_dir: "data/processed/training"
+  testing_dir: "data/processed/testing"
+  
+  # Versioning
+  use_versioning: true
+  version_format: "v{major}.{minor}.{patch}_{timestamp}"
+  
+  # Metadata
+  save_metadata: true
+  metadata_fields:
+    - "processing_date"
+    - "source_files"
+    - "total_records"
+    - "date_range"
+    - "validation_status"
+    - "pipeline_version"
+
+quality_checks:
+  # Minimum data requirements
+  min_records_per_month: 20
+  min_months_per_year: 10
+  
+  # Completeness checks
+  max_missing_percentage: 5.0  # Maximum 5% missing values per column
+  
+  # Outlier detection
+  outlier_method: "iqr"  # interquartile range
+  outlier_threshold: 3.0  # 3 * IQR
+  
+  # Consistency checks
+  check_monthly_patterns: true
+  check_weekly_patterns: true
+  check_year_over_year: true

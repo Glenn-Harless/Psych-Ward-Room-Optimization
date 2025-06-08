@@ -19,5 +19,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the rest of the application code into the container
 COPY . /app
 
-# Run the application
-CMD ["python", "main.py"]
+# Create outputs directory
+RUN mkdir -p /app/outputs
+
+# Default command - can be overridden
+# Use the new full analysis script by default
+CMD ["python", "scripts/run_full_analysis.py"]

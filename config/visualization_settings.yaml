@@ -1,0 +1,57 @@
+# Visualization Settings Configuration
+# Chart styling and display parameters
+
+seaborn:
+  style: "darkgrid"
+  context: "talk"
+  palette: "colorblind"
+
+figure_sizes:
+  default: [14, 14]
+  heatmap: [10, 8]
+  bar_chart: [12, 10]
+  line_plot: [12, 10]
+
+plot_settings:
+  linewidth: 1
+  markersize: 4
+  legend_location: "upper left"
+  date_bins: 10  # Number of bins for date labels
+  x_axis_rotation: 45
+  x_axis_alignment: "right"
+
+colors:
+  bar_chart: "skyblue"
+  efficiency_line: "orange"
+  singles_line: "blue"
+  doubles_line: "red"
+  current_model: "red"
+  optimized_model: "green"
+
+markers:
+  default: "o"
+  efficiency: "o"
+  
+heatmap:
+  format: ".0f"  # Number format in cells
+  colormap: "YlGnBu"
+  annotation: true
+
+labels:
+  efficiency: "Efficiency (%)"
+  wasted_beds: "Wasted Beds"
+  wasted_potential: "Wasted Potential"
+  date: "Date"
+  
+titles:
+  font_size: 16
+  font_weight: "bold"
+  
+grid:
+  enabled: true
+  alpha: 0.3
+  
+export:
+  dpi: 300
+  format: "png"
+  transparent: false
