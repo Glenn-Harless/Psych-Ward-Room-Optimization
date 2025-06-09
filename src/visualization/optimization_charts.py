@@ -145,14 +145,12 @@ class OptimizationCharts(BaseChart):
         fig, ax = self.create_figure(chart_type='heatmap')
         
         # Create heatmap
-        heatmap_config = self.config.VISUALIZATION['heatmap']
-        
         sns.heatmap(data.T,
                    xticklabels=self.optimization_results['single_rooms'],
                    yticklabels=self.optimization_results['double_rooms'],
-                   fmt=heatmap_config['format'],
-                   cmap=cmap if metric != 'efficiency' else heatmap_config['colormap'],
-                   annot=heatmap_config['annotation'],
+                   fmt='.0f',
+                   cmap=cmap,
+                   annot=True,
                    ax=ax)
                    
         # Labels and title
@@ -419,10 +417,10 @@ class OptimizationCharts(BaseChart):
         
         # Generate charts
         charts_to_generate = [
-            ('heatmap_objective', lambda: self.plot_optimization_heatmap('objective')),
-            ('heatmap_efficiency', lambda: self.plot_optimization_heatmap('efficiency')),
-            ('configuration_comparison', lambda: self.plot_configuration_comparison(
-                [(0, 13), (10, 8), (20, 3)]  # Current, Optimal, Alternative
+            ('heatmap_objective', lambda p: self.plot_optimization_heatmap('objective', p)),
+            ('heatmap_efficiency', lambda p: self.plot_optimization_heatmap('efficiency', p)),
+            ('configuration_comparison', lambda p: self.plot_configuration_comparison(
+                [(0, 13), (10, 8), (20, 3)], p  # Current, Optimal, Alternative
             )),
             ('efficiency_line', self.plot_efficiency_by_configuration),
             ('waste_components', self.plot_waste_components)
@@ -431,7 +429,7 @@ class OptimizationCharts(BaseChart):
         for chart_name, chart_func in charts_to_generate:
             try:
                 output_path = chart_manager.get_output_path(f'{chart_name}.png')
-                saved_path = chart_func(output_path) if chart_name.startswith('heatmap') else chart_func()
+                saved_path = chart_func(output_path)
                 
                 if saved_path:
                     # Move to proper location

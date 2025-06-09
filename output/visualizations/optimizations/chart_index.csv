@@ -1,0 +1,6 @@
+path,timestamp,type,analysis
+/app/scripts/../output/visualizations/optimizations/heatmap_objective.png,2025-06-09 14:02:52.111966,optimization,heatmap_objective
+/app/scripts/../output/visualizations/optimizations/heatmap_efficiency.png,2025-06-09 14:02:52.676428,optimization,heatmap_efficiency
+/app/scripts/../output/visualizations/optimizations/configuration_comparison.png,2025-06-09 14:02:53.110163,optimization,configuration_comparison
+/app/scripts/../output/visualizations/optimizations/efficiency_line.png,2025-06-09 14:02:53.686582,optimization,efficiency_line
+/app/scripts/../output/visualizations/optimizations/waste_components.png,2025-06-09 14:02:54.552287,optimization,waste_components

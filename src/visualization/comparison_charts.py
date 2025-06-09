@@ -59,7 +59,7 @@ class ComparisonCharts(BaseChart):
         
         # Plot lines
         ax.plot(self.current_data['Date'], 
-               self.current_data['Wasted Beds'],
+               self.current_data['Wasted_Beds'],
                label='Current Model',
                marker='o',
                linestyle='-',
@@ -68,7 +68,7 @@ class ComparisonCharts(BaseChart):
                color=self.config.get_color('current_model'))
                
         ax.plot(self.optimized_data['Date'],
-               self.optimized_data['Wasted Beds'],
+               self.optimized_data['Wasted_Beds'],
                label='Optimized Model',
                marker='x',
                linestyle='--',
@@ -111,7 +111,7 @@ class ComparisonCharts(BaseChart):
         
         # Plot lines
         ax.plot(self.current_data['Date'],
-               self.current_data['Wasted Potential'],
+               self.current_data['Wasted_Potential'],
                label='Current Model',
                marker='o',
                linestyle='-',
@@ -120,7 +120,7 @@ class ComparisonCharts(BaseChart):
                color=self.config.get_color('current_model'))
                
         ax.plot(self.optimized_data['Date'],
-               self.optimized_data['Wasted Potential'],
+               self.optimized_data['Wasted_Potential'],
                label='Optimized Model',
                marker='x',
                linestyle='--',
@@ -163,11 +163,20 @@ class ComparisonCharts(BaseChart):
         """
         fig, ax = self.create_figure(chart_type='default')
         
-        # Determine column names
+        # Determine column names and prepare data
         if efficiency_type == 'daily':
-            efficiency_col = 'Daily Efficiency'
+            efficiency_col = 'Efficiency'
             title = 'Daily Efficiency Comparison'
         else:
+            # Calculate cumulative efficiency if not present
+            if 'Cumulative Efficiency' not in self.current_data.columns:
+                self.current_data['Cumulative Efficiency'] = (
+                    self.current_data['Efficiency'].expanding().mean()
+                )
+            if 'Cumulative Efficiency' not in self.optimized_data.columns:
+                self.optimized_data['Cumulative Efficiency'] = (
+                    self.optimized_data['Efficiency'].expanding().mean()
+                )
             efficiency_col = 'Cumulative Efficiency'
             title = 'Cumulative Efficiency Comparison'
             
@@ -228,7 +237,7 @@ class ComparisonCharts(BaseChart):
         
         # Plot lines
         ax.plot(self.current_data['Date'],
-               self.current_data['Available Beds'],
+               self.current_data['Available_Beds'],
                label='Current Model',
                marker='o',
                linestyle='-',
@@ -237,7 +246,7 @@ class ComparisonCharts(BaseChart):
                color=self.config.get_color('current_model'))
                
         ax.plot(self.optimized_data['Date'],
-               self.optimized_data['Available Beds'],
+               self.optimized_data['Available_Beds'],
                label='Optimized Model',
                marker='x',
                linestyle='--',
@@ -329,27 +338,27 @@ class ComparisonCharts(BaseChart):
         axes = axes.flatten()
         
         # Subplot 1: Wasted Beds
-        axes[0].plot(self.current_data['Date'], self.current_data['Wasted Beds'],
+        axes[0].plot(self.current_data['Date'], self.current_data['Wasted_Beds'],
                     label='Current', color=self.config.get_color('current_model'))
-        axes[0].plot(self.optimized_data['Date'], self.optimized_data['Wasted Beds'],
+        axes[0].plot(self.optimized_data['Date'], self.optimized_data['Wasted_Beds'],
                     label='Optimized', color=self.config.get_color('optimized_model'))
         axes[0].set_title('Wasted Beds')
         axes[0].set_ylabel('Count')
         axes[0].legend()
         
         # Subplot 2: Wasted Potential
-        axes[1].plot(self.current_data['Date'], self.current_data['Wasted Potential'],
+        axes[1].plot(self.current_data['Date'], self.current_data['Wasted_Potential'],
                     label='Current', color=self.config.get_color('current_model'))
-        axes[1].plot(self.optimized_data['Date'], self.optimized_data['Wasted Potential'],
+        axes[1].plot(self.optimized_data['Date'], self.optimized_data['Wasted_Potential'],
                     label='Optimized', color=self.config.get_color('optimized_model'))
         axes[1].set_title('Wasted Potential')
         axes[1].set_ylabel('Count')
         axes[1].legend()
         
         # Subplot 3: Daily Efficiency
-        axes[2].plot(self.current_data['Date'], self.current_data['Daily Efficiency'],
+        axes[2].plot(self.current_data['Date'], self.current_data['Efficiency'],
                     label='Current', color=self.config.get_color('current_model'))
-        axes[2].plot(self.optimized_data['Date'], self.optimized_data['Daily Efficiency'],
+        axes[2].plot(self.optimized_data['Date'], self.optimized_data['Efficiency'],
                     label='Optimized', color=self.config.get_color('optimized_model'))
         axes[2].set_title('Daily Efficiency')
         axes[2].set_ylabel('Efficiency (%)')
@@ -360,21 +369,21 @@ class ComparisonCharts(BaseChart):
         axes[3].axis('off')
         
         # Calculate summary stats
-        current_total_waste = self.current_data['Wasted Beds'].sum() + self.current_data['Wasted Potential'].sum()
-        optimized_total_waste = self.optimized_data['Wasted Beds'].sum() + self.optimized_data['Wasted Potential'].sum()
+        current_total_waste = self.current_data['Wasted_Beds'].sum() + self.current_data['Wasted_Potential'].sum()
+        optimized_total_waste = self.optimized_data['Wasted_Beds'].sum() + self.optimized_data['Wasted_Potential'].sum()
         improvement = ((current_total_waste - optimized_total_waste) / current_total_waste * 100)
         
         summary_text = f"""Summary Statistics:
         
 Current Model:
-  Total Wasted Beds: {self.current_data['Wasted Beds'].sum():,.0f}
-  Total Wasted Potential: {self.current_data['Wasted Potential'].sum():,.0f}
-  Average Efficiency: {self.current_data['Daily Efficiency'].mean():.1%}
+  Total Wasted Beds: {self.current_data['Wasted_Beds'].sum():,.0f}
+  Total Wasted Potential: {self.current_data['Wasted_Potential'].sum():,.0f}
+  Average Efficiency: {self.current_data['Efficiency'].mean():.1%}
   
 Optimized Model:
-  Total Wasted Beds: {self.optimized_data['Wasted Beds'].sum():,.0f}
-  Total Wasted Potential: {self.optimized_data['Wasted Potential'].sum():,.0f}
-  Average Efficiency: {self.optimized_data['Daily Efficiency'].mean():.1%}
+  Total Wasted Beds: {self.optimized_data['Wasted_Beds'].sum():,.0f}
+  Total Wasted Potential: {self.optimized_data['Wasted_Potential'].sum():,.0f}
+  Average Efficiency: {self.optimized_data['Efficiency'].mean():.1%}
   
 Total Waste Reduction: {improvement:.1f}%"""
         

@@ -11,7 +11,7 @@ from typing import List, Dict, Optional, Union
 import re
 
 from ..utils.logger import get_logger, log_execution_time
-from ..utils.constants import config, DATA_COLUMNS
+from ..utils.constants import config
 from ..utils.file_handler import FileHandler
 from .excel_reader import ExcelReader
 from .data_validator import DataValidator

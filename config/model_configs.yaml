@@ -22,9 +22,9 @@ models:
 
 paths:
   input:
-    training_data: "data/final_census_data.csv"
-    test_data: "data/final_census_data_test_set.csv"
-    test_data_extended: "data/final_census_data_test_set_may_to_oct2024.csv"
+    training_data: "processed/training/final_census_data.csv"
+    test_data: "processed/test/final_census_data_test_set.csv"
+    test_data_extended: "processed/test/final_census_data_test_set_may_to_oct2024.csv"
     
   output:
     base_directory: "output"

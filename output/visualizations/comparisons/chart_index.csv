@@ -1,0 +1,6 @@
+path,timestamp,type,metric
+/app/scripts/../output/visualizations/comparisons/wasted_beds_comparison.png,2025-06-09 14:02:48.819156,comparison,wasted_beds
+/app/scripts/../output/visualizations/comparisons/wasted_potential_comparison.png,2025-06-09 14:02:49.384765,comparison,wasted_potential
+/app/scripts/../output/visualizations/comparisons/daily_efficiency_comparison.png,2025-06-09 14:02:49.983398,comparison,daily_efficiency
+/app/scripts/../output/visualizations/comparisons/cumulative_efficiency_comparison.png,2025-06-09 14:02:50.502409,comparison,cumulative_efficiency
+/app/scripts/../output/visualizations/comparisons/available_beds_comparison.png,2025-06-09 14:02:51.274430,comparison,available_beds

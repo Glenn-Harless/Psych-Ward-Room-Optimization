@@ -1,0 +1,5 @@
+path,timestamp,type,model,metric,models
+/app/scripts/../output/visualizations/capacity/utilization_timeline.png,2025-06-09 14:02:55.882377,capacity,Current Model (All Double Rooms),utilization_timeline,
+/app/scripts/../output/visualizations/capacity/utilization_distribution.png,2025-06-09 14:02:56.313742,capacity,Current Model (All Double Rooms),utilization_distribution,
+/app/scripts/../output/visualizations/capacity/events_comparison.png,2025-06-09 14:02:56.904145,capacity_comparison,,,"['Current Model', 'Optimized Model']"
+/app/scripts/../output/visualizations/capacity/metrics_summary.png,2025-06-09 14:02:57.432578,capacity_comparison,,,"['Current Model', 'Optimized Model']"

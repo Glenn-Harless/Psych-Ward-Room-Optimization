@@ -335,7 +335,7 @@ class ChartManager:
 def create_comparison_legend(labels: List[str], 
                            colors: Optional[List[str]] = None,
                            markers: Optional[List[str]] = None,
-                           location: str = 'upper left') -> plt.Legend:
+                           location: str = 'upper left'):
     """
     Create a standardized comparison legend.
     

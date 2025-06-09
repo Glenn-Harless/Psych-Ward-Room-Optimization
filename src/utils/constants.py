@@ -65,6 +65,9 @@ class Config:
         data_dir = root / 'data'
         
         if filename:
+            # Handle absolute paths
+            if Path(filename).is_absolute():
+                return Path(filename)
             return data_dir / filename
         return data_dir
     
@@ -106,3 +109,6 @@ CLOSED_ROOMS_COLUMN = config.DATA_COLUMNS['closed_rooms']
 
 # Years to process
 YEARS_TO_PROCESS = config.OPTIMIZATION['years_to_process']
+
+# Export DATA_COLUMNS for backward compatibility
+DATA_COLUMNS = config.DATA_COLUMNS

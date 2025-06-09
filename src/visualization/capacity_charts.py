@@ -283,7 +283,17 @@ class CapacityCharts(BaseChart):
         ax.set_title(f'Daily Capacity Utilization Heatmap - {analysis_results["model_name"]}')
         
         # Format x-axis labels
-        ax.set_xticklabels([f"{col[0]}-{col[1]:02d}" for col in heatmap_data.columns])
+        # Get current tick positions and labels
+        xticks = ax.get_xticks()
+        if len(xticks) > len(heatmap_data.columns):
+            # Adjust ticks to match columns
+            step = max(1, len(heatmap_data.columns) // 10)  # Show up to 10 labels
+            selected_indices = list(range(0, len(heatmap_data.columns), step))
+            ax.set_xticks(selected_indices)
+            ax.set_xticklabels([f"{heatmap_data.columns[i][0]}-{heatmap_data.columns[i][1]:02d}" 
+                               for i in selected_indices])
+        else:
+            ax.set_xticklabels([f"{col[0]}-{col[1]:02d}" for col in heatmap_data.columns])
         plt.setp(ax.xaxis.get_majorticklabels(), rotation=45, ha='right')
         
         plt.tight_layout()

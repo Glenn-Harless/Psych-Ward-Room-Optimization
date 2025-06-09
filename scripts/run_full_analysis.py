@@ -152,11 +152,32 @@ def main():
     
     # Save summary
     import json
+    import numpy as np
+    
+    # Convert numpy types to native Python types
+    def convert_numpy_types(obj):
+        """Recursively convert numpy types to native Python types."""
+        if isinstance(obj, dict):
+            return {k: convert_numpy_types(v) for k, v in obj.items()}
+        elif isinstance(obj, list):
+            return [convert_numpy_types(v) for v in obj]
+        elif isinstance(obj, (np.integer, np.int64)):
+            return int(obj)
+        elif isinstance(obj, (np.floating, np.float64)):
+            return float(obj)
+        elif isinstance(obj, np.ndarray):
+            return obj.tolist()
+        elif hasattr(obj, 'item'):  # Handle numpy scalars
+            return obj.item()
+        return obj
+    
+    summary_converted = convert_numpy_types(summary)
+    
     summary_path = config.get_output_path('analysis_summary.json', 'reports/optimization_results')
     summary_path.parent.mkdir(parents=True, exist_ok=True)
     
     with open(summary_path, 'w') as f:
-        json.dump(summary, f, indent=2)
+        json.dump(summary_converted, f, indent=2)
     
     logger.info(f"\nAnalysis complete! Summary saved to {summary_path}")
     logger.info(f"Key findings:")
