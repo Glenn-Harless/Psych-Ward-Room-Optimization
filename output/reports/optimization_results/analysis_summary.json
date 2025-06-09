@@ -1,0 +1,39 @@
+{
+  "optimization": {
+    "optimal_single_rooms": 10,
+    "optimal_double_rooms": 8,
+    "total_waste": 74,
+    "efficiency": -1.8461538461538463
+  },
+  "current_model": {
+    "model_name": "Current Model (All Double Rooms)",
+    "single_rooms": 0,
+    "double_rooms": 13,
+    "total_days": 473,
+    "total_wasted_beds": 3094,
+    "total_wasted_potential": 0,
+    "avg_efficiency": 74.6519681868519,
+    "min_efficiency": 50.0,
+    "max_efficiency": 96.15384615384616,
+    "days_with_waste": 473,
+    "days_with_wasted_potential": 0
+  },
+  "optimized_model": {
+    "model_name": "Optimized Model (10S/8D)",
+    "single_rooms": 10,
+    "double_rooms": 8,
+    "total_days": 473,
+    "total_wasted_beds": 52,
+    "total_wasted_potential": 22,
+    "avg_efficiency": 99.39759852550551,
+    "min_efficiency": 88.46153846153845,
+    "max_efficiency": 100.0,
+    "days_with_waste": 31,
+    "days_with_wasted_potential": 13
+  },
+  "improvement": {
+    "efficiency_gain": 24.745630338653612,
+    "waste_reduction": 3042,
+    "days_with_waste_reduction": 442
+  }
+}
